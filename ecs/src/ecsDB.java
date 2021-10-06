@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class ecsDB {
     private final String CONNECTION_STRING = "jdbc:mysql://localhost:3306/ecs";
     private final String USER_NAME = "root";
-    private final String PASSWORD = "Oberhofer!!0";//<---add your own DB PW
+    private final String PASSWORD = "";//<---add your own DB PW
     //behavioresults
     
      public ArrayList<User> validateUser(String un, String pw) throws ClassNotFoundException, SQLException{
