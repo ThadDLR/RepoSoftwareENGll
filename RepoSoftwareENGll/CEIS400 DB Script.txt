@@ -1,0 +1,247 @@
+DROP DATABASE IF EXISTS ecs;
+CREATE DATABASE ecs;
+use ecs;
+
+CREATE TABLE `building` (
+  `buildingId` int NOT NULL AUTO_INCREMENT,
+  `buildingName` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`buildingId`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+INSERT INTO `ecs`.`building`
+(`buildingId`,
+`buildingName`)
+VALUES
+(1,'main'),
+(2,'subBuilding')
+;
+
+
+CREATE TABLE `equipment` (
+  `equipmentId` int NOT NULL AUTO_INCREMENT,
+  `equipmentName` varchar(45) DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  `status` varchar(45) DEFAULT NULL,
+  `buildingId` int DEFAULT NULL,
+  `dateAdded` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`equipmentId`)
+
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+INSERT INTO `ecs`.`equipment`
+(`equipmentId`,
+`equipmentName`,
+`price`,
+`status`,
+`buildingId`,
+`dateAdded`)
+VALUES
+(1,'saw',1.39,'Out',2,'9/30/2021'),
+(2,'hammer',3.98,'Out',1,'10/01/2021'),
+(3,'cultivator',6,'Lost',2,'10/02/2021'),
+(4,'ladder',10,'Out',1,'9/30/2021'),
+(5,'mallet',2,'Lost',1,'10/01/2021'),
+(6,'measuring tape',3.9,'Avilable',2,'10/02/2021'),
+(7,'flashlight',9.3,'Out',1,'9/30/2021'),
+(8,'wrench',8,'Avilable',1,'10/01/2021'),
+(9,'allan keys',5,'Avilable',1,'10/02/2021'),
+(10,'stud finder',4.3,'Avilable',2,'9/30/2021'),
+(11,'leveler',5,'Out',2,'10/01/2021'),
+(12,'extension cord',9,'Out',1,'10/02/2021'),
+(13,'pocket knife',3,'Lost',2,'9/30/2021'),
+(14,'allan keys',1.39,'Out',2,'10/01/2021'),
+(15,'cultivator',3.98,'Out',2,'10/02/2021'),
+(16,'extension cord',6,'Avilable',1,'9/30/2021'),
+(17,'flashlight',10,'Avilable',2,'10/01/2021'),
+(18,'hammer',2,'Avilable',1,'10/02/2021'),
+(19,'ladder',3.9,'Out',1,'9/30/2021'),
+(20,'leveler',9.3,'Out',1,'10/01/2021'),
+(21,'mallet',8,'Lost',1,'10/02/2021'),
+(22,'measuring tape',5,'Out',1,'9/30/2021'),
+(23,'pocket knife',4.3,'Broken',1,'10/01/2021'),
+(24,'saw',5,'Out',1,'10/02/2021'),
+(25,'stud finder',9,'Stolen',2,'9/30/2021'),
+(26,'wrench',3,'Lost',1,'10/01/2021');
+
+
+
+CREATE TABLE `equipment_transactions` (
+  `transactionId` int NOT NULL AUTO_INCREMENT,
+  `transactionType` varchar(10) DEFAULT NULL,
+  `equipmentId` int DEFAULT NULL,
+  `userId` int DEFAULT NULL,
+  PRIMARY KEY (`transactionId`),
+  KEY `equipmentId_idx` (`equipmentId`),
+  CONSTRAINT `equipmentId` FOREIGN KEY (`equipmentId`) REFERENCES `equipment` (`equipmentId`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+INSERT INTO `ecs`.`equipment_transactions`
+(`transactionId`,
+`transactionType`,
+`equipmentId`,
+`userId`)
+VALUES
+(1,'Out',2,2),
+(2,'Out',2,3),
+(3,'Lost',3,4),
+(4,'Out',4,5),
+(7,'Out',7,8),
+(11,'Out',10,15),
+(12,'Out',10,16),
+(13,'Lost',14,17),
+(14,'Out',14,18),
+(15,'Out',15,19),
+(19,'Out',19,23),
+(20,'Out',20,24),
+(21,'Lost',21,25),
+(22,'Out',22,26),
+(23,'Broken',23,16),
+(24,'Out',24,17),
+(25,'Stolen',25,18),
+(26,'Lost',26,19),
+(27,'Lost',5,25)
+;
+
+CREATE TABLE `position` (
+  `positionId` int NOT NULL AUTO_INCREMENT,
+  `positionTitle` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`positionId`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+INSERT INTO `ecs`.`position`
+(`positionId`,
+`positionTitle`)
+VALUES
+(1,'admin'),
+(2,'position 1'),
+(3,'position 2'),
+(4,'position 3')
+;
+
+CREATE TABLE `users` (
+  `userId` int NOT NULL,
+  `userName` varchar(45) DEFAULT NULL,
+  `userPosition` varchar(45) DEFAULT NULL,
+  `hireStatus` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`userId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+INSERT INTO `ecs`.`users`
+(`userId`,
+`userName`,
+`userPosition`,
+`hireStatus`)
+VALUES
+(1,'Adina',2,0),
+(2,'Imelda',1,1),
+(3,'Toni',2,1),
+(4,'Anastasia',3,1),
+(5,'Rufina',4,1),
+(6,'Jesse',2,1),
+(7,'Jannette',3,1),
+(8,'Edwin',4,1),
+(9,'Krysta',2,1),
+(10,'Jaclyn',3,1),
+(11,'Jen',4,0),
+(12,'Been',2,0),
+(13,'Kelly',3,0),
+(14,'Suzy',4,1),
+(15,'Josh ',2,1),
+(16,'Alex',3,1),
+(17,'Miguel',4,1),
+(18,'Emilia',2,1),
+(19,'Pok',3,1),
+(20,'Latrisha',4,1),
+(21,'Linda',2,1),
+(22,'Wanda',3,1),
+(23,'Daphnie',4,1),
+(24,'Oscar',2,1),
+(25,'Stephan',3,1),
+(26,'Daisy',4,1)
+;
+
+CREATE TABLE `requests` (
+  `requestId` int NOT NULL AUTO_INCREMENT,
+  `userId` varchar(45) DEFAULT NULL,
+  `tool` varchar(45) DEFAULT NULL,
+  `quantity` varchar(45) DEFAULT NULL,
+  `buildingId` int DEFAULT NULL,
+  `status` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`requestId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+INSERT INTO `ecs`.`requests`
+(`requestId`,
+`userId`,
+`tool`,
+`quantity`,
+`buildingId`,
+`status`)
+VALUES
+(1,17,'Hammer',2,1,'pending'),
+(2,18,'Saw',1,2,'pending'),
+(3,19,'Tape',1,2,'pending'),
+(4,20,'Tape',1,1,'pending'),
+(5,21,'Tool belt',2,1,'pending'),
+(6,22,'wrench',3,1,'pending'),
+(7,23,'stud finder',1,2,'pending');
+
+
+
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `ecs`.`contengencies` AS
+    SELECT 
+        `et`.`transactionId` AS `transactionId`,
+        `et`.`transactionType` AS `transactionType`,
+        `e`.`equipmentName` AS `equipmentName`,
+        `e`.`price` AS `price`,
+        `user`.`userName` AS `userName`,
+        `user`.`userId` AS `userId`
+    FROM
+        ((`ecs`.`equipment_transactions` `et`
+        JOIN `ecs`.`equipment` `e` ON ((`e`.`equipmentId` = `et`.`equipmentId`)))
+        JOIN `ecs`.`users` `user` ON ((`user`.`userId` = `et`.`userId`)))
+    WHERE
+        ((`et`.`transactionType` = 'lost')
+            OR (`et`.`transactionType` = 'stolen')
+            OR (`et`.`transactionType` = 'broken'));
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `ecs`.`total_loss_dollars` AS
+    SELECT 
+        SUM(`ecs`.`contengent`.`price`) AS `dollar_loss_to_date`
+    FROM
+        `ecs`.`contengencies` `contengent`;
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `ecs`.`user_contengencies_count` AS
+    SELECT 
+        `ecs`.`contengencies`.`userName` AS `username`,
+        `ecs`.`contengencies`.`userId` AS `userId`,
+        COUNT(0) AS `incidences`
+    FROM
+        `ecs`.`contengencies`
+    GROUP BY `ecs`.`contengencies`.`userId`
+    ORDER BY `incidences`;
+    
+CREATE 
+VIEW `ecs`.`main_building_equipment` AS
+ SELECT 
+      e.equipmentId, e.equipmentName, e.price, e.dateAdded,build.buildingName
+    FROM
+        `ecs`.`equipment` `e`
+        JOIN ecs.building as build on e.buildingId=build.buildingId
+        where build.buildingId=1;
+
+CREATE 
+VIEW `ecs`.`sub_Building_equipment` AS
+ SELECT 
+      e.equipmentId, e.equipmentName, e.price, e.dateAdded,build.buildingName
+    FROM
+        `ecs`.`equipment` `e`
+        JOIN ecs.building as build on e.buildingId=build.buildingId
+        where build.buildingId=2;
+
+    
+   
