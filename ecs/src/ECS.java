@@ -1,5 +1,11 @@
 
+import java.awt.print.PrinterException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,8 +22,20 @@ public class ECS extends javax.swing.JFrame {
     /**
      * Creates new form ECS
      */
+    int userPosition=0;
+
     public ECS() {
-        initComponents();
+        initComponents();        
+        getReports(false,"");
+        getBuildingReoprt("1");
+        jMenuBar1.hide();
+        inptUsername.setText("user2");
+        inptPassword.setText("user2");
+
+        
+        
+        
+        
     }
 
     /**
@@ -29,10 +47,17 @@ public class ECS extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         paneLogin = new javax.swing.JPanel();
-        jButton9 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        inptUsername = new javax.swing.JTextField();
+        inptPassword = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        btnLogin = new javax.swing.JButton();
         tabDashboard = new javax.swing.JTabbedPane();
         panEquipment = new javax.swing.JPanel();
         btnCheckOut = new javax.swing.JButton();
@@ -70,34 +95,25 @@ public class ECS extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         panReports = new javax.swing.JPanel();
-        btnUserContingency = new javax.swing.JButton();
         btnBuildingInventory = new javax.swing.JButton();
         lpaneReports = new javax.swing.JLayeredPane();
         paneContingency = new javax.swing.JPanel();
-        jTextField5 = new javax.swing.JTextField();
+        inptFinancialLoss = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        scrollPane4 = new java.awt.ScrollPane();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        jTable7 = new javax.swing.JTable();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        jTable6 = new javax.swing.JTable();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
-        paneUserContingencies = new javax.swing.JPanel();
-        jTextField6 = new javax.swing.JTextField();
+        scrollPane6 = new java.awt.ScrollPane();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        tblContingency = new javax.swing.JTable();
+        inptFilterReport = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        scrollPane5 = new java.awt.ScrollPane();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        jTable8 = new javax.swing.JTable();
-        jScrollPane9 = new javax.swing.JScrollPane();
-        jTable9 = new javax.swing.JTable();
-        jScrollPane10 = new javax.swing.JScrollPane();
-        jTable10 = new javax.swing.JTable();
-        jScrollPane11 = new javax.swing.JScrollPane();
-        jTable11 = new javax.swing.JTable();
+        inptTotalContingencies = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
         paneBuildingInventory = new javax.swing.JPanel();
+        btnMainBuilding = new java.awt.Button();
+        scrollPane5 = new java.awt.ScrollPane();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tblBuildingInventory = new javax.swing.JTable();
+        btnPrintBuildingRep = new java.awt.Button();
+        btnSubBuilding = new java.awt.Button();
         btnContingency = new javax.swing.JButton();
         panProfile = new javax.swing.JPanel();
         panUsers = new javax.swing.JPanel();
@@ -106,34 +122,88 @@ public class ECS extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane6.setViewportView(jTextArea1);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLayeredPane1.setLayout(new java.awt.CardLayout());
 
-        paneLogin.setBackground(new java.awt.Color(255, 255, 102));
+        jPanel2.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Employee Login", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 24))); // NOI18N
 
-        jButton9.setText("LOG IN");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        inptUsername.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        inptPassword.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel11.setText("Password");
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel10.setText("Username");
+
+        btnLogin.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnLogin.setText("LOG IN");
+        btnLogin.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                btnLoginActionPerformed(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(inptPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                    .addComponent(inptUsername))
+                .addGap(48, 48, 48))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(71, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(inptUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(50, 50, 50)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(inptPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(51, 51, 51)
+                .addComponent(btnLogin)
+                .addContainerGap(63, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout paneLoginLayout = new javax.swing.GroupLayout(paneLogin);
         paneLogin.setLayout(paneLoginLayout);
         paneLoginLayout.setHorizontalGroup(
             paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(paneLoginLayout.createSequentialGroup()
-                .addGap(418, 418, 418)
-                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(459, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneLoginLayout.createSequentialGroup()
+                .addContainerGap(359, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(341, 341, 341))
         );
         paneLoginLayout.setVerticalGroup(
             paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneLoginLayout.createSequentialGroup()
-                .addContainerGap(235, Short.MAX_VALUE)
-                .addComponent(jButton9)
-                .addGap(214, 214, 214))
+                .addContainerGap(78, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(89, 89, 89))
         );
 
         jLayeredPane1.add(paneLogin, "card3");
@@ -414,22 +484,21 @@ public class ECS extends javax.swing.JFrame {
 
         tabDashboard.addTab("Equipment", panEquipment);
 
-        btnUserContingency.setText("User Contingency");
-        btnUserContingency.addActionListener(new java.awt.event.ActionListener() {
+        btnBuildingInventory.setText("Building Inventory");
+        btnBuildingInventory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUserContingencyActionPerformed(evt);
+                btnBuildingInventoryActionPerformed(evt);
             }
         });
 
-        btnBuildingInventory.setText("Building Inventory");
-
         lpaneReports.setLayout(new java.awt.CardLayout());
 
-        jTextField5.setText("jTextField5");
+        inptFinancialLoss.setEditable(false);
 
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel8.setText("Total Financial Loss To Date:");
 
-        jTable7.setModel(new javax.swing.table.DefaultTableModel(
+        tblContingency.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -440,91 +509,80 @@ public class ECS extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane7.setViewportView(jTable7);
+        jScrollPane12.setViewportView(tblContingency);
 
-        scrollPane4.add(jScrollPane7);
+        scrollPane6.add(jScrollPane12);
 
-        jTable6.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+        inptFilterReport.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                inptFilterReportKeyReleased(evt);
             }
-        ));
-        jScrollPane6.setViewportView(jTable6);
+        });
 
-        scrollPane4.add(jScrollPane6);
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel9.setText("Filter (Name or User ID):");
 
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane5.setViewportView(jTable5);
+        inptTotalContingencies.setEditable(false);
 
-        scrollPane4.add(jScrollPane5);
-
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane4.setViewportView(jTable4);
-
-        scrollPane4.add(jScrollPane4);
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel12.setText("Total Contingencies");
 
         javax.swing.GroupLayout paneContingencyLayout = new javax.swing.GroupLayout(paneContingency);
         paneContingency.setLayout(paneContingencyLayout);
         paneContingencyLayout.setHorizontalGroup(
-            paneContingencyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            paneContingencyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(paneContingencyLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(scrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(paneContingencyLayout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(61, 61, 61)
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(539, Short.MAX_VALUE))
+                .addComponent(inptFinancialLoss, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(inptTotalContingencies, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(275, Short.MAX_VALUE))
+            .addGroup(paneContingencyLayout.createSequentialGroup()
+                .addGroup(paneContingencyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(paneContingencyLayout.createSequentialGroup()
+                        .addGap(58, 58, 58)
+                        .addComponent(scrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(paneContingencyLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(inptFilterReport, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         paneContingencyLayout.setVerticalGroup(
             paneContingencyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneContingencyLayout.createSequentialGroup()
-                .addContainerGap(85, Short.MAX_VALUE)
-                .addComponent(scrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
+                .addGap(36, 36, 36)
+                .addGroup(paneContingencyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(inptFilterReport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(paneContingencyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inptFinancialLoss, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inptTotalContingencies, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
                 .addGap(35, 35, 35))
         );
 
         lpaneReports.add(paneContingency, "card2");
 
-        paneUserContingencies.setBackground(new java.awt.Color(204, 255, 204));
+        paneBuildingInventory.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jTextField6.setText("jTextField5");
+        btnMainBuilding.setLabel("Main Building");
+        btnMainBuilding.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainBuildingActionPerformed(evt);
+            }
+        });
 
-        jLabel9.setText("Total Financial Loss To Date:");
-
-        jTable8.setModel(new javax.swing.table.DefaultTableModel(
+        tblBuildingInventory.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -535,96 +593,56 @@ public class ECS extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane8.setViewportView(jTable8);
+        jScrollPane5.setViewportView(tblBuildingInventory);
 
-        scrollPane5.add(jScrollPane8);
+        scrollPane5.add(jScrollPane5);
 
-        jTable9.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+        btnPrintBuildingRep.setActionCommand("print");
+        btnPrintBuildingRep.setLabel("Print");
+        btnPrintBuildingRep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrintBuildingRepActionPerformed(evt);
             }
-        ));
-        jScrollPane9.setViewportView(jTable9);
+        });
 
-        scrollPane5.add(jScrollPane9);
-
-        jTable10.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+        btnSubBuilding.setLabel("Sub Building");
+        btnSubBuilding.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubBuildingActionPerformed(evt);
             }
-        ));
-        jScrollPane10.setViewportView(jTable10);
-
-        scrollPane5.add(jScrollPane10);
-
-        jTable11.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane11.setViewportView(jTable11);
-
-        scrollPane5.add(jScrollPane11);
-
-        javax.swing.GroupLayout paneUserContingenciesLayout = new javax.swing.GroupLayout(paneUserContingencies);
-        paneUserContingencies.setLayout(paneUserContingenciesLayout);
-        paneUserContingenciesLayout.setHorizontalGroup(
-            paneUserContingenciesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(paneUserContingenciesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(scrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(paneUserContingenciesLayout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(539, Short.MAX_VALUE))
-        );
-        paneUserContingenciesLayout.setVerticalGroup(
-            paneUserContingenciesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneUserContingenciesLayout.createSequentialGroup()
-                .addContainerGap(85, Short.MAX_VALUE)
-                .addComponent(scrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
-                .addGroup(paneUserContingenciesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35))
-        );
-
-        lpaneReports.add(paneUserContingencies, "card3");
-
-        paneBuildingInventory.setBackground(new java.awt.Color(204, 204, 255));
+        });
 
         javax.swing.GroupLayout paneBuildingInventoryLayout = new javax.swing.GroupLayout(paneBuildingInventory);
         paneBuildingInventory.setLayout(paneBuildingInventoryLayout);
         paneBuildingInventoryLayout.setHorizontalGroup(
             paneBuildingInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 781, Short.MAX_VALUE)
+            .addGroup(paneBuildingInventoryLayout.createSequentialGroup()
+                .addGap(105, 105, 105)
+                .addComponent(btnMainBuilding, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(btnSubBuilding, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 405, Short.MAX_VALUE)
+                .addComponent(btnPrintBuildingRep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
+            .addGroup(paneBuildingInventoryLayout.createSequentialGroup()
+                .addGap(92, 92, 92)
+                .addComponent(scrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         paneBuildingInventoryLayout.setVerticalGroup(
             paneBuildingInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 422, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneBuildingInventoryLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(scrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(paneBuildingInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSubBuilding, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMainBuilding, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPrintBuildingRep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(47, 47, 47))
         );
+
+        btnPrintBuildingRep.getAccessibleContext().setAccessibleName("print");
 
         lpaneReports.add(paneBuildingInventory, "card4");
 
@@ -643,9 +661,8 @@ public class ECS extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addGroup(panReportsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnContingency, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnUserContingency, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnBuildingInventory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
                 .addComponent(lpaneReports, javax.swing.GroupLayout.PREFERRED_SIZE, 781, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -654,9 +671,7 @@ public class ECS extends javax.swing.JFrame {
             .addGroup(panReportsLayout.createSequentialGroup()
                 .addGap(112, 112, 112)
                 .addComponent(btnContingency)
-                .addGap(32, 32, 32)
-                .addComponent(btnUserContingency)
-                .addGap(33, 33, 33)
+                .addGap(18, 18, 18)
                 .addComponent(btnBuildingInventory)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(panReportsLayout.createSequentialGroup()
@@ -759,6 +774,8 @@ public class ECS extends javax.swing.JFrame {
         // TODO add your handling code here:
         switchPanels(paneCheckOut,1);
         
+
+        
     }//GEN-LAST:event_btnCheckOutActionPerformed
 
     private void btnCheckInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckInActionPerformed
@@ -767,15 +784,10 @@ public class ECS extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnCheckInActionPerformed
 
-    private void btnUserContingencyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserContingencyActionPerformed
-        // TODO add your handling code here:
-        switchPanels(paneUserContingencies,2);
-        
-    }//GEN-LAST:event_btnUserContingencyActionPerformed
-
     private void btnContingencyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContingencyActionPerformed
         // TODO add your handling code here:
         switchPanels(paneContingency,2);
+   
         
     }//GEN-LAST:event_btnContingencyActionPerformed
 
@@ -785,21 +797,69 @@ public class ECS extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnEditInventoryActionPerformed
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
+        int validUser=validateUser(inptUsername.getText(),inptPassword.getText());
+        if(validUser==1){
+        
             jLayeredPane1.removeAll();
             jLayeredPane1.add(tabDashboard);
             jLayeredPane1.repaint();
             jLayeredPane1.revalidate();
-    }//GEN-LAST:event_jButton9ActionPerformed
+            jMenuBar1.show();
+        if(userPosition!=1){
+        hideNonAdmin();
+        }
+        }
+        else{    JOptionPane.showMessageDialog(null, "Incorrect Username or Password",
+      "Access Denied", JOptionPane.ERROR_MESSAGE);
+}
+    }//GEN-LAST:event_btnLoginActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
+        jMenuBar1.hide();
+
             jLayeredPane1.removeAll();
             jLayeredPane1.add(paneLogin);
             jLayeredPane1.repaint();
             jLayeredPane1.revalidate();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void btnBuildingInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuildingInventoryActionPerformed
+        // TODO add your handling code here:
+        switchPanels(paneBuildingInventory,2);
+
+    }//GEN-LAST:event_btnBuildingInventoryActionPerformed
+
+    private void btnMainBuildingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainBuildingActionPerformed
+        // TODO add your handling code here:
+       getBuildingReoprt("1");
+    }//GEN-LAST:event_btnMainBuildingActionPerformed
+
+    private void btnPrintBuildingRepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintBuildingRepActionPerformed
+        // TODO add your handling code here:
+        try {
+            boolean print = tblBuildingInventory.print();
+            if (!print) {
+               // JOptionPane.showMessageDialog(null, "Unable To Print !!..");
+            }
+        } catch (PrinterException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    }//GEN-LAST:event_btnPrintBuildingRepActionPerformed
+
+    private void btnSubBuildingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubBuildingActionPerformed
+        // TODO add your handling code here:
+               getBuildingReoprt("2");
+
+    }//GEN-LAST:event_btnSubBuildingActionPerformed
+
+    private void inptFilterReportKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inptFilterReportKeyReleased
+        // TODO add your handling code here:
+                       getReports( true, inptFilterReport.getText());
+                       System.out.print(inptFilterReport.getText());
+    }//GEN-LAST:event_inptFilterReportKeyReleased
 
     /**
      * @param args the command line arguments
@@ -844,7 +904,15 @@ public class ECS extends javax.swing.JFrame {
     private javax.swing.JButton btnCheckOut;
     private javax.swing.JButton btnContingency;
     private javax.swing.JButton btnEditInventory;
-    private javax.swing.JButton btnUserContingency;
+    private javax.swing.JButton btnLogin;
+    private java.awt.Button btnMainBuilding;
+    private java.awt.Button btnPrintBuildingRep;
+    private java.awt.Button btnSubBuilding;
+    private javax.swing.JTextField inptFilterReport;
+    private javax.swing.JTextField inptFinancialLoss;
+    private javax.swing.JTextField inptPassword;
+    private javax.swing.JTextField inptTotalContingencies;
+    private javax.swing.JTextField inptUsername;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -852,8 +920,10 @@ public class ECS extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -868,34 +938,21 @@ public class ECS extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane10;
-    private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable10;
-    private javax.swing.JTable jTable11;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
-    private javax.swing.JTable jTable5;
-    private javax.swing.JTable jTable6;
-    private javax.swing.JTable jTable7;
-    private javax.swing.JTable jTable8;
-    private javax.swing.JTable jTable9;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JLayeredPane lpaneEquipment;
     private javax.swing.JLayeredPane lpaneReports;
     private javax.swing.JPanel panEquipment;
@@ -908,13 +965,14 @@ public class ECS extends javax.swing.JFrame {
     private javax.swing.JPanel paneContingency;
     private javax.swing.JPanel paneEditInventory;
     private javax.swing.JPanel paneLogin;
-    private javax.swing.JPanel paneUserContingencies;
     private java.awt.ScrollPane scrollPane1;
     private java.awt.ScrollPane scrollPane2;
     private java.awt.ScrollPane scrollPane3;
-    private java.awt.ScrollPane scrollPane4;
     private java.awt.ScrollPane scrollPane5;
+    private java.awt.ScrollPane scrollPane6;
     private javax.swing.JTabbedPane tabDashboard;
+    private javax.swing.JTable tblBuildingInventory;
+    private javax.swing.JTable tblContingency;
     // End of variables declaration//GEN-END:variables
     public void switchPanels(JPanel panel, int x){
         if(x==1){
@@ -931,4 +989,134 @@ public class ECS extends javax.swing.JFrame {
         }
 
     }
+    
+  public void getReports(boolean filter, String filterString ){
+//contengency report
+DefaultTableModel reportTableModel = new DefaultTableModel();
+        tblContingency.setModel(reportTableModel);
+        double totalContingency=0;
+
+        String[] colTitles = {"Transaction ID", "Transaction Type", "Equipment", "Price", "Employee",  "Employee ID"};
+        reportTableModel.setColumnIdentifiers(colTitles);
+        
+        ecsDB db2 = new ecsDB();
+        try {
+
+             ArrayList<Reports> records =null;
+            if(filter==true )
+            {
+                records = db2.getContingencyRec(true,filterString);
+
+            }
+            else{                      
+                records = db2.getContingencyRec(false,filterString);
+            }
+
+            for (int i = 0; i < records.size(); i++) {
+                Reports odr = records.get(i);  
+                
+                Object[] row = {odr.getTransactionID(), odr.getTransactionType(), odr.getEquipmentName(), odr.getPrice(), odr.getName().toUpperCase(), odr.getUserID()};
+                reportTableModel.addRow(row);
+                totalContingency+=odr.getPrice();
+                                         inptTotalContingencies.setText(String.valueOf(i+1));
+
+                 
+                 
+            }
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error DB driver not found", "Driver Not Found", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "DB ERROR: " + ex.getMessage(), "DB ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        System.out.println(totalContingency+"<--");
+                         inptFinancialLoss.setText(String.valueOf(totalContingency));
+
+}
+//user contengency report
+//  public void getUserContingency(){
+//  DefaultTableModel userContingencyModel = new DefaultTableModel();
+//        tblUserContingency.setModel(userContingencyModel);
+//
+//        String[] colTitles = {"Employee", "Employee ID", "Equipment incidents",};
+//        userContingencyModel.setColumnIdentifiers(colTitles);
+//        
+//        ecsDB db2 = new ecsDB();
+//        try {
+//            ArrayList<Reports> records = db2.getUserContingencyRec();
+//            for (int i = 0; i < records.size(); i++) {
+//                Reports odr = records.get(i);    
+//                Object[] row = {odr.getName().toUpperCase(), odr.getUserID(), odr.getCntingency()};
+//                //reportTableModel.addRow(row);
+//                 userContingencyModel.addRow(row);
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            JOptionPane.showMessageDialog(this, "Error DB driver not found", "Driver Not Found", JOptionPane.ERROR_MESSAGE);
+//        } catch (SQLException ex) {
+//            JOptionPane.showMessageDialog(this, "DB ERROR: " + ex.getMessage(), "DB ERROR", JOptionPane.ERROR_MESSAGE);
+//        }
+//        
+//}
+  
+//user contengency report
+  public void getBuildingReoprt(String x){
+  DefaultTableModel userContingencyModel = new DefaultTableModel();
+        tblBuildingInventory.setModel(userContingencyModel);
+
+        String[] colTitles = {"Equipment Id", "Equipment Name", "Building"};
+        userContingencyModel.setColumnIdentifiers(colTitles);
+        
+        ecsDB db2 = new ecsDB();
+        try {
+            ArrayList<Reports> records = db2.getBuildingReport(x);
+            for (int i = 0; i < records.size(); i++) {
+                Reports odr = records.get(i);      
+
+                Object[] row = {odr.getEquipmentId(), odr.getEquipmentName(), odr.getBuildingName()};
+                //reportTableModel.addRow(row);
+                //System.out.println(Arrays.toString(row));
+
+                 userContingencyModel.addRow(row);
+            }
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error DB driver not found", "Driver Not Found", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "DB ERROR: " + ex.getMessage(), "DB ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        
+}
+  
+
+
+  public int validateUser(String un, String pw){
+int validUser=0;
+        
+          ecsDB db2 = new ecsDB();
+        try {
+            ArrayList<User> records = db2.validateUser(un , pw);
+            if(records.size()>0){validUser=1;}
+           
+               
+            for (int i = 0; i < records.size(); i++) {
+                User odr = records.get(i);      
+                Object[] row = {odr.getUserName(), odr.getPassword(), odr.getPosition()};
+                //reportTableModel.addRow(row);
+                System.out.println(Arrays.toString(row));
+                userPosition=odr.getPosition();
+             
+
+               //  userContingencyModel.addRow(row);
+            }
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error DB driver not found", "Driver Not Found", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "DB ERROR: " + ex.getMessage(), "DB ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        return validUser;
+}
+private void hideNonAdmin(){
+paneEditInventory.hide();
+btnEditInventory.hide();
+jMenuBar1.show();
+}
+
 }
