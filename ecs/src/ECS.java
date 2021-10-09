@@ -1,5 +1,11 @@
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -37,38 +43,57 @@ public class ECS extends javax.swing.JFrame {
         panEquipment = new javax.swing.JPanel();
         btnCheckOut = new javax.swing.JButton();
         btnCheckIn = new javax.swing.JButton();
-        btnEditInventory = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
         lpaneEquipment = new javax.swing.JLayeredPane();
         paneCheckOut = new javax.swing.JPanel();
         scrollPane3 = new java.awt.ScrollPane();
+        paneEdit = new javax.swing.JPanel();
+        scrollPane1 = new java.awt.ScrollPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jtfEquipmentId = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jtfPrice = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jtfBuilding = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jtfDate = new javax.swing.JTextField();
+        btnAdd = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jtfName1 = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
+        btnCheckout2 = new javax.swing.JButton();
         paneCheckIn = new javax.swing.JPanel();
         scrollPane2 = new java.awt.ScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        paneEditInventory = new javax.swing.JPanel();
+        btnStolen = new javax.swing.JButton();
+        btnBroken = new javax.swing.JButton();
+        btnLost = new javax.swing.JButton();
+        paneEdit = new javax.swing.JPanel();
         scrollPane1 = new java.awt.ScrollPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jtfEquipmentId = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jtfPrice = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        jtfBuilding = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jButton7 = new javax.swing.JButton();
+        jtfDate = new javax.swing.JTextField();
+        btnAdd = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jtfName1 = new javax.swing.JTextField();
         panReports = new javax.swing.JPanel();
         btnUserContingency = new javax.swing.JButton();
         btnBuildingInventory = new javax.swing.JButton();
@@ -126,7 +151,7 @@ public class ECS extends javax.swing.JFrame {
             .addGroup(paneLoginLayout.createSequentialGroup()
                 .addGap(418, 418, 418)
                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(459, Short.MAX_VALUE))
+                .addContainerGap(463, Short.MAX_VALUE))
         );
         paneLoginLayout.setVerticalGroup(
             paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,16 +177,130 @@ public class ECS extends javax.swing.JFrame {
             }
         });
 
-        btnEditInventory.setLabel("Edit Inventory");
-        btnEditInventory.addActionListener(new java.awt.event.ActionListener() {
+        btnEdit.setLabel("Edit Inventory");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditInventoryActionPerformed(evt);
+                btnEditActionPerformed(evt);
             }
         });
 
         lpaneEquipment.setLayout(new java.awt.CardLayout());
 
         paneCheckOut.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        paneEdit.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable3);
+
+        scrollPane1.add(jScrollPane2);
+
+        jButton1.setText("Delete");
+
+        jLabel1.setText("Name");
+
+        jLabel4.setText("Price");
+
+        jLabel5.setText("Building");
+
+        jLabel6.setText("Date Added");
+
+        btnAdd.setText("ADD");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("EDIT INVENTORY");
+
+        jLabel10.setText("Equipment Id");
+
+        javax.swing.GroupLayout paneEditLayout = new javax.swing.GroupLayout(paneEdit);
+        paneEdit.setLayout(paneEditLayout);
+        paneEditLayout.setHorizontalGroup(
+            paneEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneEditLayout.createSequentialGroup()
+                .addGroup(paneEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paneEditLayout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(scrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(paneEditLayout.createSequentialGroup()
+                        .addGap(213, 213, 213)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(paneEditLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel7)))
+                .addGap(22, 22, 22)
+                .addGroup(paneEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paneEditLayout.createSequentialGroup()
+                        .addGroup(paneEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtfBuilding, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
+                            .addComponent(jtfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtfDate, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtfName1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(paneEditLayout.createSequentialGroup()
+                        .addGroup(paneEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtfEquipmentId, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel10))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        paneEditLayout.setVerticalGroup(
+            paneEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneEditLayout.createSequentialGroup()
+                .addGroup(paneEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paneEditLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(paneEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel10))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtfEquipmentId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addGroup(paneEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(scrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(paneEditLayout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jtfName1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtfBuilding, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtfDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(32, 32, 32)
+                        .addComponent(jButton1))
+                    .addGroup(paneEditLayout.createSequentialGroup()
+                        .addGap(154, 154, 154)
+                        .addComponent(btnAdd)))
+                .addContainerGap(108, Short.MAX_VALUE))
+        );
+
+        lpaneEquipment.add(paneEdit, "card4");
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -180,7 +319,12 @@ public class ECS extends javax.swing.JFrame {
 
         jLabel3.setText("CHECK OUT - EQUIPMENT");
 
-        jButton6.setText("Check Out");
+        btnCheckout2.setText("Check Out");
+        btnCheckout2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCheckout2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout paneCheckOutLayout = new javax.swing.GroupLayout(paneCheckOut);
         paneCheckOut.setLayout(paneCheckOutLayout);
@@ -195,7 +339,7 @@ public class ECS extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(paneCheckOutLayout.createSequentialGroup()
                 .addGap(323, 323, 323)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCheckout2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         paneCheckOutLayout.setVerticalGroup(
@@ -205,7 +349,7 @@ public class ECS extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(scrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(70, 70, 70)
-                .addComponent(jButton6)
+                .addComponent(btnCheckout2)
                 .addGap(50, 50, 50))
         );
 
@@ -231,12 +375,32 @@ public class ECS extends javax.swing.JFrame {
         jLabel2.setText("CHECK IN - USER HISTORY");
 
         jButton2.setText("Check In");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("stolen");
+        btnStolen.setText("stolen");
+        btnStolen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStolenActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Broken");
+        btnBroken.setText("Broken");
+        btnBroken.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBrokenActionPerformed(evt);
+            }
+        });
 
-        jButton5.setText("Lost");
+        btnLost.setText("Lost");
+        btnLost.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLostActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout paneCheckInLayout = new javax.swing.GroupLayout(paneCheckIn);
         paneCheckIn.setLayout(paneCheckInLayout);
@@ -250,11 +414,11 @@ public class ECS extends javax.swing.JFrame {
                 .addGap(48, 48, 48)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnBroken, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnStolen, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnLost, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(paneCheckInLayout.createSequentialGroup()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -269,15 +433,15 @@ public class ECS extends javax.swing.JFrame {
                 .addGap(64, 64, 64)
                 .addGroup(paneCheckInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(btnStolen)
+                    .addComponent(btnBroken)
+                    .addComponent(btnLost))
                 .addGap(56, 56, 56))
         );
 
         lpaneEquipment.add(paneCheckIn, "card3");
 
-        paneEditInventory.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        paneEdit.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -298,89 +462,98 @@ public class ECS extends javax.swing.JFrame {
 
         jLabel1.setText("Name");
 
-        jTextField1.setText("jTextField1");
-
         jLabel4.setText("Price");
 
-        jTextField2.setText("jTextField1");
+        jLabel5.setText("Building");
 
-        jLabel5.setText("Quantity");
+        jLabel6.setText("Date Added");
 
-        jTextField3.setText("jTextField1");
-
-        jLabel6.setText("Building");
-
-        jTextField4.setText("jTextField1");
-
-        jButton7.setText("ADD");
+        btnAdd.setText("ADD");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("EDIT INVENTORY");
 
-        javax.swing.GroupLayout paneEditInventoryLayout = new javax.swing.GroupLayout(paneEditInventory);
-        paneEditInventory.setLayout(paneEditInventoryLayout);
-        paneEditInventoryLayout.setHorizontalGroup(
-            paneEditInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(paneEditInventoryLayout.createSequentialGroup()
-                .addGroup(paneEditInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(paneEditInventoryLayout.createSequentialGroup()
+        jLabel10.setText("Equipment Id");
+
+        javax.swing.GroupLayout paneEditLayout = new javax.swing.GroupLayout(paneEdit);
+        paneEdit.setLayout(paneEditLayout);
+        paneEditLayout.setHorizontalGroup(
+            paneEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneEditLayout.createSequentialGroup()
+                .addGroup(paneEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paneEditLayout.createSequentialGroup()
                         .addGap(23, 23, 23)
-                        .addComponent(scrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(22, 22, 22)
-                        .addGroup(paneEditInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(paneEditInventoryLayout.createSequentialGroup()
+                        .addComponent(scrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(paneEditLayout.createSequentialGroup()
                         .addGap(213, 213, 213)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(paneEditInventoryLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        paneEditInventoryLayout.setVerticalGroup(
-            paneEditInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(paneEditInventoryLayout.createSequentialGroup()
-                .addGroup(paneEditInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(paneEditInventoryLayout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(paneEditLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel7)
-                        .addGap(28, 28, 28)
-                        .addGroup(paneEditInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel7)))
+                .addGap(22, 22, 22)
+                .addGroup(paneEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paneEditLayout.createSequentialGroup()
+                        .addGroup(paneEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtfBuilding, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
+                            .addComponent(jtfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtfDate, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtfName1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(paneEditLayout.createSequentialGroup()
+                        .addGroup(paneEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtfEquipmentId, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel10))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        paneEditLayout.setVerticalGroup(
+            paneEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneEditLayout.createSequentialGroup()
+                .addGroup(paneEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paneEditLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(paneEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel10))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtfEquipmentId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addGroup(paneEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(scrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(paneEditInventoryLayout.createSequentialGroup()
+                            .addGroup(paneEditLayout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jtfName1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jtfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jtfBuilding, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(26, 26, 26)
+                                .addComponent(jtfDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(32, 32, 32)
                         .addComponent(jButton1))
-                    .addGroup(paneEditInventoryLayout.createSequentialGroup()
+                    .addGroup(paneEditLayout.createSequentialGroup()
                         .addGap(154, 154, 154)
-                        .addComponent(jButton7)))
-                .addContainerGap(114, Short.MAX_VALUE))
+                        .addComponent(btnAdd)))
+                .addContainerGap(108, Short.MAX_VALUE))
         );
 
-        lpaneEquipment.add(paneEditInventory, "card4");
+        lpaneEquipment.add(paneEdit, "card4");
 
         javax.swing.GroupLayout panEquipmentLayout = new javax.swing.GroupLayout(panEquipment);
         panEquipment.setLayout(panEquipmentLayout);
@@ -391,7 +564,7 @@ public class ECS extends javax.swing.JFrame {
                 .addGroup(panEquipmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnCheckOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCheckIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEditInventory, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lpaneEquipment, javax.swing.GroupLayout.PREFERRED_SIZE, 781, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -408,7 +581,7 @@ public class ECS extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addComponent(btnCheckIn)
                 .addGap(33, 33, 33)
-                .addComponent(btnEditInventory)
+                .addComponent(btnEdit)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -758,12 +931,60 @@ public class ECS extends javax.swing.JFrame {
     private void btnCheckOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckOutActionPerformed
         // TODO add your handling code here:
         switchPanels(paneCheckOut,1);
+        //sets the table model for the jtable and adds in the column titles
+        DefaultTableModel tblModel = new DefaultTableModel();
+        jTable2.setModel(tblModel);
+        String[] colTitles = {"Equipment Id", "Equipment Name", "Price", "Status", "Building Id", "Date Added"};
+        tblModel.setColumnIdentifiers(colTitles);
+        
+        ecsDB db = new ecsDB();
+        //populate jtable
+        try {
+            ArrayList<Equipment> list = db.getEquipment();
+            for (int i = 0; i < list.size(); i++)
+            {
+                Equipment equipment = list.get(i);
+                
+                Object[] row = {equipment.getId(), equipment.getName(), equipment.getPrice(), equipment.getStatus(),
+                    equipment.getBuildingId(), equipment.getDateAdded()};
+                
+                tblModel.addRow(row);
+            }
+        } catch (ClassNotFoundException ex) {
+             JOptionPane.showMessageDialog(this, "JDBC driver not found", "Driver Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
         
     }//GEN-LAST:event_btnCheckOutActionPerformed
 
     private void btnCheckInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckInActionPerformed
         // TODO add your handling code here:
         switchPanels(paneCheckIn,1);
+        //sets the table model for the jtable and adds in the column titles
+        DefaultTableModel tblModel = new DefaultTableModel();
+        jTable1.setModel(tblModel);
+        String[] colTitles = {"Equipment Id", "Equipment Name", "Price", "Status", "Building Id", "Date Added"};
+        tblModel.setColumnIdentifiers(colTitles);
+        
+        ecsDB db = new ecsDB();
+        //populate jtable
+        try {
+            ArrayList<Equipment> list = db.getEquipment();
+            for (int i = 0; i < list.size(); i++)
+            {
+                Equipment equipment = list.get(i);
+                
+                Object[] row = {equipment.getId(), equipment.getName(), equipment.getPrice(), equipment.getStatus(),
+                    equipment.getBuildingId(), equipment.getDateAdded()};
+                
+                tblModel.addRow(row);
+            }
+        } catch (ClassNotFoundException ex) {
+             JOptionPane.showMessageDialog(this, "JDBC driver not found", "Driver Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
 
     }//GEN-LAST:event_btnCheckInActionPerformed
 
@@ -779,11 +1000,35 @@ public class ECS extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnContingencyActionPerformed
 
-    private void btnEditInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditInventoryActionPerformed
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
-                switchPanels(paneEditInventory,1);
+        switchPanels(paneEdit,1);
+        //sets the table model for the jtable and adds in the column titles
+        DefaultTableModel tblModel = new DefaultTableModel();
+        jTable3.setModel(tblModel);
+        String[] colTitles = {"Equipment Id", "Equipment Name", "Price", "Status", "Building Id", "Date Added"};
+        tblModel.setColumnIdentifiers(colTitles);
+        
+        ecsDB db = new ecsDB();
+        //populate jtable
+        try {
+            ArrayList<Equipment> list = db.getEquipment();
+            for (int i = 0; i < list.size(); i++)
+            {
+                Equipment equipment = list.get(i);
+                
+                Object[] row = {equipment.getId(), equipment.getName(), equipment.getPrice(), equipment.getStatus(),
+                    equipment.getBuildingId(), equipment.getDateAdded()};
+                
+                tblModel.addRow(row);
+            }
+        } catch (ClassNotFoundException ex) {
+             JOptionPane.showMessageDialog(this, "JDBC driver not found", "Driver Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }        
 
-    }//GEN-LAST:event_btnEditInventoryActionPerformed
+    }//GEN-LAST:event_btnEditActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
@@ -800,6 +1045,278 @@ public class ECS extends javax.swing.JFrame {
             jLayeredPane1.repaint();
             jLayeredPane1.revalidate();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void btnCheckout2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckout2ActionPerformed
+        // Select a tool to check out from jtable2 and check it out
+        // the columns are used to grab the correct column of data at a selected row
+        int column = 0;
+        int column1 = 1;
+        int column3 = 2;
+        int column2 = 3;
+        int column4 = 4;
+        int column5 = 5;
+          //user selected row of jtable
+        int row = jTable2.getSelectedRow();
+        //equipment Id
+        String value = jTable2.getModel().getValueAt(row, column).toString();
+        //status
+        String value2 = jTable2.getModel().getValueAt(row, column2).toString();
+         //convert string value to int
+        int equipmentId = Integer.parseInt(value);
+        //Checks out the tool, changes avilable to out
+        if(value2.equals("Avilable"))
+        {
+            value2 = "Out";
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Not Avilable for check out");
+        }
+        //grabs the rest of the equipment class info
+        String equipmentName = jTable2.getModel().getValueAt(row, column1).toString();
+        String equipmentPrice = jTable2.getModel().getValueAt(row, column3).toString();
+        double equipPrice = Double.parseDouble(equipmentPrice);
+        String equipmentBuilding = jTable2.getModel().getValueAt(row, column4).toString();
+        int equipBuilding = Integer.parseInt(equipmentBuilding);
+        String equipmentDate = jTable2.getModel().getValueAt(row, column5).toString();
+        //create equipment type to save
+        Equipment equipment;
+        equipment = new Equipment(equipmentId, equipmentName, equipPrice, value2, equipBuilding, equipmentDate);
+        //open database
+        ecsDB db = new ecsDB();
+        //save changes
+        try{
+         db.equipmentCheckOut(equipment);
+         JOptionPane.showMessageDialog(this, "Contact was written to the database");
+        } catch (ClassNotFoundException ex) {
+             JOptionPane.showMessageDialog(this, "JDBC driver not found", "Driver Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+           JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnCheckout2ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // Check in the tool if not broken, lost, or stolen
+        // the columns are used to grab the correct column of data at a selected row
+        int column = 0;
+        int column1 = 1;
+        int column3 = 2;
+        int column2 = 3;
+        int column4 = 4;
+        int column5 = 5;
+        //user selected row of jtable
+        int row = jTable1.getSelectedRow();
+        //equipment Id
+        String value = jTable1.getModel().getValueAt(row, column).toString();
+        //status
+        String value2 = jTable1.getModel().getValueAt(row, column2).toString();
+        //convert string value to int
+        int equipmentId = Integer.parseInt(value);
+        //Checks in the tool, changes out to avilable
+        if(value2.equals("Out"))
+        {
+            value2 = "Avilable";
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Not Avilable for check in");
+        }
+        //grabs the rest of the equipment class info
+        String equipmentName = jTable1.getModel().getValueAt(row, column1).toString();
+        String equipmentPrice = jTable1.getModel().getValueAt(row, column3).toString();
+        double equipPrice = Double.parseDouble(equipmentPrice);
+        String equipmentBuilding = jTable1.getModel().getValueAt(row, column4).toString();
+        int equipBuilding = Integer.parseInt(equipmentBuilding);
+        String equipmentDate = jTable1.getModel().getValueAt(row, column5).toString();
+        Equipment equipment;
+        //create equipment type to save
+        equipment = new Equipment(equipmentId, equipmentName, equipPrice, value2, equipBuilding, equipmentDate);
+        //open database
+        ecsDB db = new ecsDB();
+        //save changes
+        try{
+         db.equipmentCheckOut(equipment);
+         JOptionPane.showMessageDialog(this, "Contact was written to the database");
+        } catch (ClassNotFoundException ex) {
+             JOptionPane.showMessageDialog(this, "JDBC driver not found", "Driver Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+           JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnBrokenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrokenActionPerformed
+        // reports item as Broken
+        int column = 0;
+        int column1 = 1;
+        int column3 = 2;
+        int column2 = 3;
+        int column4 = 4;
+        int column5 = 5;
+        //user selected row of jtable
+        int row = jTable1.getSelectedRow();
+        //equipment Id
+        String value = jTable1.getModel().getValueAt(row, column).toString();
+        //status
+        String value2 = jTable1.getModel().getValueAt(row, column2).toString();
+        //convert string value to int
+        int equipmentId = Integer.parseInt(value);
+        //Checks in the tool, changes out to avilable
+        if(value2.equals("Out"))
+        {
+            value2 = "Broken";
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Tool needs to be checked out in order to report broken.");
+        }
+        //grabs the rest of the equipment class info
+        String equipmentName = jTable1.getModel().getValueAt(row, column1).toString();
+        String equipmentPrice = jTable1.getModel().getValueAt(row, column3).toString();
+        double equipPrice = Double.parseDouble(equipmentPrice);
+        String equipmentBuilding = jTable1.getModel().getValueAt(row, column4).toString();
+        int equipBuilding = Integer.parseInt(equipmentBuilding);
+        String equipmentDate = jTable1.getModel().getValueAt(row, column5).toString();
+        Equipment equipment;
+        //create equipment type to save
+        equipment = new Equipment(equipmentId, equipmentName, equipPrice, value2, equipBuilding, equipmentDate);
+        //open database
+        ecsDB db = new ecsDB();
+        //save changes
+        try{
+         db.equipmentCheckOut(equipment);
+         JOptionPane.showMessageDialog(this, "Contact was written to the database");
+        } catch (ClassNotFoundException ex) {
+             JOptionPane.showMessageDialog(this, "JDBC driver not found", "Driver Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+           JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnBrokenActionPerformed
+
+    private void btnStolenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStolenActionPerformed
+        // reports item as stolen
+        int column = 0;
+        int column1 = 1;
+        int column3 = 2;
+        int column2 = 3;
+        int column4 = 4;
+        int column5 = 5;
+        //user selected row of jtable
+        int row = jTable1.getSelectedRow();
+        //equipment Id
+        String value = jTable1.getModel().getValueAt(row, column).toString();
+        //status
+        String value2 = jTable1.getModel().getValueAt(row, column2).toString();
+        //convert string value to int
+        int equipmentId = Integer.parseInt(value);
+        //Checks in the tool, changes out to avilable
+        if(value2.equals("Out"))
+        {
+            value2 = "Stolen";
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Tool needs to be checked out in order to report stolen.");
+        }
+        //grabs the rest of the equipment class info
+        String equipmentName = jTable1.getModel().getValueAt(row, column1).toString();
+        String equipmentPrice = jTable1.getModel().getValueAt(row, column3).toString();
+        double equipPrice = Double.parseDouble(equipmentPrice);
+        String equipmentBuilding = jTable1.getModel().getValueAt(row, column4).toString();
+        int equipBuilding = Integer.parseInt(equipmentBuilding);
+        String equipmentDate = jTable1.getModel().getValueAt(row, column5).toString();
+        Equipment equipment;
+        //create equipment type to save
+        equipment = new Equipment(equipmentId, equipmentName, equipPrice, value2, equipBuilding, equipmentDate);
+        //open database
+        ecsDB db = new ecsDB();
+        //save changes
+        try{
+         db.equipmentCheckOut(equipment);
+         JOptionPane.showMessageDialog(this, "Contact was written to the database");
+        } catch (ClassNotFoundException ex) {
+             JOptionPane.showMessageDialog(this, "JDBC driver not found", "Driver Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+           JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnStolenActionPerformed
+
+    private void btnLostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLostActionPerformed
+        // reports item as lost
+        int column = 0;
+        int column1 = 1;
+        int column3 = 2;
+        int column2 = 3;
+        int column4 = 4;
+        int column5 = 5;
+        //user selected row of jtable
+        int row = jTable1.getSelectedRow();
+        //equipment Id
+        String value = jTable1.getModel().getValueAt(row, column).toString();
+        //status
+        String value2 = jTable1.getModel().getValueAt(row, column2).toString();
+        //convert string value to int
+        int equipmentId = Integer.parseInt(value);
+        //Checks in the tool, changes out to avilable
+        if(value2.equals("Out"))
+        {
+            value2 = "Broken";
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Tool needs to be checked out in order to report lost.");
+        }
+        //grabs the rest of the equipment class info
+        String equipmentName = jTable1.getModel().getValueAt(row, column1).toString();
+        String equipmentPrice = jTable1.getModel().getValueAt(row, column3).toString();
+        double equipPrice = Double.parseDouble(equipmentPrice);
+        String equipmentBuilding = jTable1.getModel().getValueAt(row, column4).toString();
+        int equipBuilding = Integer.parseInt(equipmentBuilding);
+        String equipmentDate = jTable1.getModel().getValueAt(row, column5).toString();
+        Equipment equipment;
+        //create equipment type to save
+        equipment = new Equipment(equipmentId, equipmentName, equipPrice, value2, equipBuilding, equipmentDate);
+        //open database
+        ecsDB db = new ecsDB();
+        //save changes
+        try{
+         db.equipmentCheckOut(equipment);
+         JOptionPane.showMessageDialog(this, "Contact was written to the database");
+        } catch (ClassNotFoundException ex) {
+             JOptionPane.showMessageDialog(this, "JDBC driver not found", "Driver Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+           JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnLostActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // adds a new item to inventory (saves it to the database)
+        //create default equipment to populate, and placeholders for data from user
+        Equipment equipment;
+        int id, bId;
+        String name, status, date;
+        Double price;
+        //grab the user entered data and save it to place holders
+        id = Integer.parseInt(jtfEquipmentId.getText());
+        bId = Integer.parseInt(jtfBuilding.getText());
+        name = jtfEquipmentId.getText();
+        //they are adding a tool so auto set to avilable
+        status = "Avilable";
+        date = jtfDate.getText();
+        price = Double.parseDouble(jtfPrice.getText());
+        //save user info into new equipment type
+        equipment = new Equipment(id,name,price,status,bId,date);
+        //open database
+        ecsDB db = new ecsDB();
+        //save changes
+        try{
+         db.add(equipment);
+         JOptionPane.showMessageDialog(this, "Contact was written to the database");
+        } catch (ClassNotFoundException ex) {
+             JOptionPane.showMessageDialog(this, "JDBC driver not found", "Driver Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+           JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
 
     /**
      * @param args the command line arguments
@@ -835,25 +1352,25 @@ public class ECS extends javax.swing.JFrame {
             }
         });
     }
-    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnBroken;
     private javax.swing.JButton btnBuildingInventory;
     private javax.swing.JButton btnCheckIn;
     private javax.swing.JButton btnCheckOut;
+    private javax.swing.JButton btnCheckout2;
     private javax.swing.JButton btnContingency;
-    private javax.swing.JButton btnEditInventory;
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnLost;
+    private javax.swing.JButton btnStolen;
     private javax.swing.JButton btnUserContingency;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -890,12 +1407,13 @@ public class ECS extends javax.swing.JFrame {
     private javax.swing.JTable jTable7;
     private javax.swing.JTable jTable8;
     private javax.swing.JTable jTable9;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jtfBuilding;
+    private javax.swing.JTextField jtfDate;
+    private javax.swing.JTextField jtfEquipmentId;
+    private javax.swing.JTextField jtfName1;
+    private javax.swing.JTextField jtfPrice;
     private javax.swing.JLayeredPane lpaneEquipment;
     private javax.swing.JLayeredPane lpaneReports;
     private javax.swing.JPanel panEquipment;
@@ -906,7 +1424,7 @@ public class ECS extends javax.swing.JFrame {
     private javax.swing.JPanel paneCheckIn;
     private javax.swing.JPanel paneCheckOut;
     private javax.swing.JPanel paneContingency;
-    private javax.swing.JPanel paneEditInventory;
+    private javax.swing.JPanel paneEdit;
     private javax.swing.JPanel paneLogin;
     private javax.swing.JPanel paneUserContingencies;
     private java.awt.ScrollPane scrollPane1;
