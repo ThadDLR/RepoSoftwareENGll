@@ -34,7 +34,7 @@ public class Reports {
 
     }
     //contingency 
-    public Reports(int transactionID, String transactionType, String equipmentName, double price, String name,int userID) {
+  public Reports(int transactionID, String transactionType, String equipmentName, double price, String name,int userID) {
         this.transactionID = transactionID;
         this.transactionType = transactionType;
         this.equipmentName = equipmentName;
@@ -42,6 +42,16 @@ public class Reports {
         this.name = name;
         this.userID = userID;
     }
+      public Reports(int transactionID, String transactionType, String equipmentName, double price, String name,int userID, String buildingName) {
+        this.transactionID = transactionID;
+        this.transactionType = transactionType;
+        this.equipmentName = equipmentName;
+        this.price = price;
+        this.name = name;
+        this.userID = userID;
+        this.buildingName=buildingName;
+    }
+
     // user contingency
     public Reports( String name, int userID, int contingency) {
        
@@ -62,16 +72,16 @@ public class Reports {
         return transactionID;
     }
     public String getTransactionType(){
-        return transactionType;
+        return transactionType.toUpperCase();
     }
     public String getEquipmentName(){
-        return equipmentName;
+        return equipmentName.toUpperCase();
     }
     public double getPrice(){
         return price;
     }
     public String getName(){
-        return name;
+        return name.toUpperCase();
     }
     public int getUserID(){
         return userID;
@@ -86,7 +96,7 @@ public class Reports {
         return dateAdded;
     }
     public String getBuildingName(){
-        return buildingName;
+        return buildingName.toUpperCase();
     }
 //      int equipmentId=0;
 //    String dateAdded="";

@@ -3,6 +3,9 @@ import java.awt.print.PrinterException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -22,8 +25,10 @@ public class ECS extends javax.swing.JFrame {
     /**
      * Creates new form ECS
      */
-    int userPosition=0;
-
+   int userPosition=0;
+     int selectRequest;
+    int userId=0;
+    String selectCheckIn="";
     public ECS() {
         initComponents();        
         getReports(false,"");
@@ -31,6 +36,8 @@ public class ECS extends javax.swing.JFrame {
         jMenuBar1.hide();
         inptUsername.setText("user2");
         inptPassword.setText("user2");
+        getAllTransactions(false,"");
+
 
         
         
@@ -49,14 +56,15 @@ public class ECS extends javax.swing.JFrame {
 
         jScrollPane6 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         paneLogin = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        loginInternalPannel = new javax.swing.JPanel();
         inptUsername = new javax.swing.JTextField();
         inptPassword = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        lblPw = new javax.swing.JLabel();
+        lblUsername = new javax.swing.JLabel();
         btnLogin = new javax.swing.JButton();
         tabDashboard = new javax.swing.JTabbedPane();
         panEquipment = new javax.swing.JPanel();
@@ -73,40 +81,54 @@ public class ECS extends javax.swing.JFrame {
         paneCheckIn = new javax.swing.JPanel();
         scrollPane2 = new java.awt.ScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblCheckIn = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnCheckInAction = new javax.swing.JButton();
+        btnStolenAction = new javax.swing.JButton();
+        btnBrokenAction = new javax.swing.JButton();
+        btnLostAction = new javax.swing.JButton();
         paneEditInventory = new javax.swing.JPanel();
         scrollPane1 = new java.awt.ScrollPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
         jButton7 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        jtfDate = new javax.swing.JTextField();
+        lblDateEnventory = new javax.swing.JLabel();
+        jtfBuilding = new javax.swing.JTextField();
+        lblBuildingInventory = new javax.swing.JLabel();
+        jtfPrice = new javax.swing.JTextField();
+        lblPriceInventory = new javax.swing.JLabel();
+        jtfName = new javax.swing.JTextField();
+        lblNameInventory = new javax.swing.JLabel();
+        jtfEquipmentId = new javax.swing.JTextField();
+        lblInventoryEquipmentID = new javax.swing.JLabel();
+        paneRequest = new javax.swing.JPanel();
+        intRequestToolName = new javax.swing.JTextField();
+        combBoxBuilding = new javax.swing.JComboBox<>();
+        btnSubRequest = new javax.swing.JButton();
+        lblToolName = new javax.swing.JLabel();
+        lblBuildingRequest = new javax.swing.JLabel();
+        scrolRequest = new java.awt.ScrollPane();
+        scrollInnerRequest = new javax.swing.JScrollPane();
+        tblRequests = new javax.swing.JTable();
+        btnRequestApproved = new javax.swing.JButton();
+        btnRequestDeny = new javax.swing.JButton();
+        btnRequest = new javax.swing.JButton();
         panReports = new javax.swing.JPanel();
         btnBuildingInventory = new javax.swing.JButton();
         lpaneReports = new javax.swing.JLayeredPane();
         paneContingency = new javax.swing.JPanel();
         inptFinancialLoss = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        scrollPane6 = new java.awt.ScrollPane();
-        jScrollPane12 = new javax.swing.JScrollPane();
+        lblFinancialLoss = new javax.swing.JLabel();
+        scrlContingency = new java.awt.ScrollPane();
+        scrlPaneContingency = new javax.swing.JScrollPane();
         tblContingency = new javax.swing.JTable();
         inptFilterReport = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
+        lblFilterContingency = new javax.swing.JLabel();
         inptTotalContingencies = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
+        lblTotalContingencies = new javax.swing.JLabel();
         paneBuildingInventory = new javax.swing.JPanel();
         btnMainBuilding = new java.awt.Button();
         scrollPane5 = new java.awt.ScrollPane();
@@ -114,9 +136,155 @@ public class ECS extends javax.swing.JFrame {
         tblBuildingInventory = new javax.swing.JTable();
         btnPrintBuildingRep = new java.awt.Button();
         btnSubBuilding = new java.awt.Button();
+        paneAllTransactions = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tbleAllTransactions = new javax.swing.JTable();
+        inptFilterAllTrans = new javax.swing.JTextField();
+        btnPrintAllTransactions = new java.awt.Button();
+        lblFilterAllTrans = new javax.swing.JLabel();
         btnContingency = new javax.swing.JButton();
+        btnAllTransactions = new javax.swing.JButton();
         panProfile = new javax.swing.JPanel();
+        panProfile1 = new javax.swing.JPanel();
+        lblGender3 = new javax.swing.JLabel();
+        SolGender3 = new javax.swing.JLabel();
+        solEMail2 = new javax.swing.JLabel();
+        lblDriverLicense3 = new javax.swing.JLabel();
+        lblFirstName4 = new javax.swing.JLabel();
+        solFirstName4 = new javax.swing.JLabel();
+        solEmployeeIDNo3 = new javax.swing.JLabel();
+        lblEMail3 = new javax.swing.JLabel();
+        lblMiddleName3 = new javax.swing.JLabel();
+        solPhoneNo3 = new javax.swing.JLabel();
+        solMiddleName2 = new javax.swing.JLabel();
+        lblEmployeeID3 = new javax.swing.JLabel();
+        solUsername5 = new javax.swing.JLabel();
+        solLastName4 = new javax.swing.JLabel();
+        lblLastName4 = new javax.swing.JLabel();
+        lblUsername5 = new javax.swing.JLabel();
+        solDriverLicense3 = new javax.swing.JLabel();
+        lblPhoneNo3 = new javax.swing.JLabel();
+        lblIssueDate3 = new javax.swing.JLabel();
+        solIssueDate3 = new javax.swing.JLabel();
+        lblExpDate2 = new javax.swing.JLabel();
+        solExpDate2 = new javax.swing.JLabel();
+        lblDLAdderss4 = new javax.swing.JLabel();
+        solDLAddress5 = new javax.swing.JLabel();
+        lblDLAddress5 = new javax.swing.JLabel();
+        solDLAddress6 = new javax.swing.JLabel();
+        lblCity5 = new javax.swing.JLabel();
+        solCity5 = new javax.swing.JLabel();
+        lblState5 = new javax.swing.JLabel();
+        solState5 = new javax.swing.JLabel();
+        lblZipCode5 = new javax.swing.JLabel();
+        solZipCode5 = new javax.swing.JLabel();
+        lblDash5 = new javax.swing.JLabel();
+        solPlus44 = new javax.swing.JLabel();
+        lblSSN3 = new javax.swing.JLabel();
+        solSSN3 = new javax.swing.JLabel();
+        lblFEIN3 = new javax.swing.JLabel();
+        solFEIN3 = new javax.swing.JLabel();
+        lblEmploymentStatus3 = new javax.swing.JLabel();
+        solEmploymentStatus3 = new javax.swing.JLabel();
+        lblSearchEmplID1 = new javax.swing.JLabel();
+        lblSearchEquipID1 = new javax.swing.JLabel();
+        txtSearchEquipID1 = new javax.swing.JTextField();
+        txtSearchEmplID1 = new javax.swing.JTextField();
         panUsers = new javax.swing.JPanel();
+        panUserInput = new javax.swing.JPanel();
+        lblUserProfileTitle1 = new javax.swing.JLabel();
+        lblUsername3 = new javax.swing.JLabel();
+        txtUsername3 = new javax.swing.JTextField();
+        lblEmployeeID1 = new javax.swing.JLabel();
+        lblEmployeeIDNum1 = new javax.swing.JLabel();
+        lblFirstName2 = new javax.swing.JLabel();
+        txtFirstName2 = new javax.swing.JTextField();
+        lblMiddleName1 = new javax.swing.JLabel();
+        txtMiddleName1 = new javax.swing.JTextField();
+        lblLastName2 = new javax.swing.JLabel();
+        txtLastName2 = new javax.swing.JTextField();
+        lblAdderss1 = new javax.swing.JLabel();
+        txtAddress1 = new javax.swing.JTextField();
+        lblAddress2 = new javax.swing.JLabel();
+        txtAddress2 = new javax.swing.JTextField();
+        lblCity1 = new javax.swing.JLabel();
+        txtCity1 = new javax.swing.JTextField();
+        lblState1 = new javax.swing.JLabel();
+        selState1 = new javax.swing.JComboBox<>();
+        lblZipCode1 = new javax.swing.JLabel();
+        txtZipCode1 = new javax.swing.JTextField();
+        lblDash = new javax.swing.JLabel();
+        txtPlus41 = new javax.swing.JTextField();
+        lblEMail1 = new javax.swing.JLabel();
+        txtEmail1 = new javax.swing.JFormattedTextField();
+        lblPhoneNo = new javax.swing.JLabel();
+        txtFormPhoneNo1 = new javax.swing.JFormattedTextField();
+        lblDateofBirth1 = new javax.swing.JLabel();
+        txtDOB1 = new javax.swing.JFormattedTextField();
+        lblGender1 = new javax.swing.JLabel();
+        radMale1 = new javax.swing.JRadioButton();
+        radFemale1 = new javax.swing.JRadioButton();
+        lblPassword4 = new javax.swing.JLabel();
+        txtPassword4 = new javax.swing.JPasswordField();
+        lblPassword5 = new javax.swing.JLabel();
+        txtPassword5 = new javax.swing.JPasswordField();
+        lblSSN1 = new javax.swing.JLabel();
+        txtSSN1 = new javax.swing.JFormattedTextField();
+        lblFEIN1 = new javax.swing.JLabel();
+        txtFEIN1 = new javax.swing.JFormattedTextField();
+        lblBuildingId1 = new javax.swing.JLabel();
+        txtBuildingId1 = new javax.swing.JTextField();
+        lblEmploymentStatus1 = new javax.swing.JLabel();
+        radActive1 = new javax.swing.JRadioButton();
+        radInactive1 = new javax.swing.JRadioButton();
+        radTerminated1 = new javax.swing.JRadioButton();
+        btnClear1 = new javax.swing.JButton();
+        btnSave1 = new javax.swing.JButton();
+        panUserResult = new javax.swing.JPanel();
+        lblUserProfileTitle2 = new javax.swing.JLabel();
+        lblUsername4 = new javax.swing.JLabel();
+        solUsername4 = new javax.swing.JLabel();
+        lblEmployeeID2 = new javax.swing.JLabel();
+        solEmployeeIDNo1 = new javax.swing.JLabel();
+        lblFirstName3 = new javax.swing.JLabel();
+        solFirstName3 = new javax.swing.JLabel();
+        lblMiddleName2 = new javax.swing.JLabel();
+        solMiddleName1 = new javax.swing.JLabel();
+        lblLastName3 = new javax.swing.JLabel();
+        solLastName3 = new javax.swing.JLabel();
+        lblAdderss2 = new javax.swing.JLabel();
+        solAddress2 = new javax.swing.JLabel();
+        lblAddress3 = new javax.swing.JLabel();
+        solAddress3 = new javax.swing.JLabel();
+        lblCity2 = new javax.swing.JLabel();
+        solCity2 = new javax.swing.JLabel();
+        lblState2 = new javax.swing.JLabel();
+        solState2 = new javax.swing.JLabel();
+        lblZipcode3 = new javax.swing.JLabel();
+        solZipCode3 = new javax.swing.JLabel();
+        lblDash1 = new javax.swing.JLabel();
+        solPlus42 = new javax.swing.JLabel();
+        lblEMail2 = new javax.swing.JLabel();
+        solEMail1 = new javax.swing.JLabel();
+        lblPhoneNo2 = new javax.swing.JLabel();
+        solPhoneNo2 = new javax.swing.JLabel();
+        lblDOB2 = new javax.swing.JLabel();
+        solDOB2 = new javax.swing.JLabel();
+        lblGender2 = new javax.swing.JLabel();
+        SolGender2 = new javax.swing.JLabel();
+        lblPassword6 = new javax.swing.JLabel();
+        solPassword6 = new javax.swing.JLabel();
+        lblPassword7 = new javax.swing.JLabel();
+        solPassword7 = new javax.swing.JLabel();
+        lblSSN2 = new javax.swing.JLabel();
+        solSSN2 = new javax.swing.JLabel();
+        lblFEIN2 = new javax.swing.JLabel();
+        solFEIN2 = new javax.swing.JLabel();
+        lblEmploymentStatus2 = new javax.swing.JLabel();
+        solEmploymentStatus2 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        btnEdit1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -126,22 +294,24 @@ public class ECS extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane6.setViewportView(jTextArea1);
 
+        jLabel1.setText("jLabel1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLayeredPane1.setLayout(new java.awt.CardLayout());
 
-        jPanel2.setBackground(new java.awt.Color(153, 153, 153));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Employee Login", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 24))); // NOI18N
+        loginInternalPannel.setBackground(new java.awt.Color(153, 153, 153));
+        loginInternalPannel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Employee Login", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 24))); // NOI18N
 
         inptUsername.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         inptPassword.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel11.setText("Password");
+        lblPw.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblPw.setText("Password");
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel10.setText("Username");
+        lblUsername.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblUsername.setText("Username");
 
         btnLogin.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnLogin.setText("LOG IN");
@@ -152,37 +322,37 @@ public class ECS extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout loginInternalPannelLayout = new javax.swing.GroupLayout(loginInternalPannel);
+        loginInternalPannel.setLayout(loginInternalPannelLayout);
+        loginInternalPannelLayout.setHorizontalGroup(
+            loginInternalPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginInternalPannelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel10)
+                .addGroup(loginInternalPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblPw, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(loginInternalPannelLayout.createSequentialGroup()
+                        .addComponent(lblUsername)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(loginInternalPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(inptPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
                     .addComponent(inptUsername))
                 .addGap(48, 48, 48))
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(loginInternalPannelLayout.createSequentialGroup()
                 .addGap(80, 80, 80)
                 .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(71, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        loginInternalPannelLayout.setVerticalGroup(
+            loginInternalPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginInternalPannelLayout.createSequentialGroup()
                 .addGap(43, 43, 43)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
+                .addGroup(loginInternalPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblUsername)
                     .addComponent(inptUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(50, 50, 50)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
+                .addGroup(loginInternalPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPw)
                     .addComponent(inptPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(51, 51, 51)
                 .addComponent(btnLogin)
@@ -195,14 +365,14 @@ public class ECS extends javax.swing.JFrame {
             paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneLoginLayout.createSequentialGroup()
                 .addContainerGap(359, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(loginInternalPannel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(341, 341, 341))
         );
         paneLoginLayout.setVerticalGroup(
             paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneLoginLayout.createSequentialGroup()
                 .addContainerGap(78, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(loginInternalPannel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(89, 89, 89))
         );
 
@@ -251,6 +421,11 @@ public class ECS extends javax.swing.JFrame {
         jLabel3.setText("CHECK OUT - EQUIPMENT");
 
         jButton6.setText("Check Out");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout paneCheckOutLayout = new javax.swing.GroupLayout(paneCheckOut);
         paneCheckOut.setLayout(paneCheckOutLayout);
@@ -283,7 +458,7 @@ public class ECS extends javax.swing.JFrame {
 
         paneCheckIn.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblCheckIn.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -294,19 +469,44 @@ public class ECS extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tblCheckIn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCheckInMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblCheckIn);
 
         scrollPane2.add(jScrollPane1);
 
         jLabel2.setText("CHECK IN - USER HISTORY");
 
-        jButton2.setText("Check In");
+        btnCheckInAction.setText("Check In");
+        btnCheckInAction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCheckInActionActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("stolen");
+        btnStolenAction.setText("stolen");
+        btnStolenAction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStolenActionActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Broken");
+        btnBrokenAction.setText("Broken");
+        btnBrokenAction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBrokenActionActionPerformed(evt);
+            }
+        });
 
-        jButton5.setText("Lost");
+        btnLostAction.setText("Lost");
+        btnLostAction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLostActionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout paneCheckInLayout = new javax.swing.GroupLayout(paneCheckIn);
         paneCheckIn.setLayout(paneCheckInLayout);
@@ -318,13 +518,13 @@ public class ECS extends javax.swing.JFrame {
                 .addGap(28, 28, 28))
             .addGroup(paneCheckInLayout.createSequentialGroup()
                 .addGap(48, 48, 48)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCheckInAction, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnBrokenAction, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnStolenAction, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnLostAction, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(paneCheckInLayout.createSequentialGroup()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -338,10 +538,10 @@ public class ECS extends javax.swing.JFrame {
                 .addComponent(scrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(64, 64, 64)
                 .addGroup(paneCheckInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(btnCheckInAction)
+                    .addComponent(btnStolenAction)
+                    .addComponent(btnBrokenAction)
+                    .addComponent(btnLostAction))
                 .addGap(56, 56, 56))
         );
 
@@ -360,31 +560,46 @@ public class ECS extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable3MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable3);
 
         scrollPane1.add(jScrollPane2);
 
         jButton1.setText("Delete");
-
-        jLabel1.setText("Name");
-
-        jTextField1.setText("jTextField1");
-
-        jLabel4.setText("Price");
-
-        jTextField2.setText("jTextField1");
-
-        jLabel5.setText("Quantity");
-
-        jTextField3.setText("jTextField1");
-
-        jLabel6.setText("Building");
-
-        jTextField4.setText("jTextField1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("ADD");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("EDIT INVENTORY");
+
+        lblDateEnventory.setText("Date Added");
+
+        lblBuildingInventory.setText("Building");
+
+        lblPriceInventory.setText("Price");
+
+        lblNameInventory.setText("Name");
+
+        jtfEquipmentId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfEquipmentIdActionPerformed(evt);
+            }
+        });
+
+        lblInventoryEquipmentID.setText("Equipment Id");
 
         javax.swing.GroupLayout paneEditInventoryLayout = new javax.swing.GroupLayout(paneEditInventory);
         paneEditInventory.setLayout(paneEditInventoryLayout);
@@ -394,21 +609,23 @@ public class ECS extends javax.swing.JFrame {
                 .addGroup(paneEditInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(paneEditInventoryLayout.createSequentialGroup()
                         .addGap(23, 23, 23)
-                        .addComponent(scrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(22, 22, 22)
-                        .addGroup(paneEditInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(scrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(paneEditInventoryLayout.createSequentialGroup()
                         .addGap(213, 213, 213)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(paneEditInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtfEquipmentId, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfBuilding, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNameInventory)
+                    .addComponent(jtfName, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPriceInventory)
+                    .addComponent(jtfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfDate, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblBuildingInventory, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDateEnventory, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblInventoryEquipmentID, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(paneEditInventoryLayout.createSequentialGroup()
@@ -423,27 +640,33 @@ public class ECS extends javax.swing.JFrame {
                     .addGroup(paneEditInventoryLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel7)
-                        .addGap(28, 28, 28)
                         .addGroup(paneEditInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(scrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(paneEditInventoryLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
+                                .addGap(28, 28, 28)
+                                .addComponent(scrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
+                                .addComponent(jButton1))
+                            .addGroup(paneEditInventoryLayout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addComponent(lblInventoryEquipmentID)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jtfEquipmentId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(9, 9, 9)
+                                .addComponent(lblNameInventory)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtfName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblPriceInventory)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel4)
+                                .addComponent(lblBuildingInventory)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel5)
+                                .addComponent(jtfBuilding, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel6)
+                                .addComponent(lblDateEnventory)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(26, 26, 26)
-                        .addComponent(jButton1))
+                                .addComponent(jtfDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(paneEditInventoryLayout.createSequentialGroup()
                         .addGap(154, 154, 154)
                         .addComponent(jButton7)))
@@ -451,6 +674,122 @@ public class ECS extends javax.swing.JFrame {
         );
 
         lpaneEquipment.add(paneEditInventory, "card4");
+
+        paneRequest.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        combBoxBuilding.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Main", "Sub Building", " " }));
+        combBoxBuilding.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combBoxBuildingActionPerformed(evt);
+            }
+        });
+
+        btnSubRequest.setText("Submit");
+        btnSubRequest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubRequestActionPerformed(evt);
+            }
+        });
+
+        lblToolName.setText("Tool Name");
+
+        lblBuildingRequest.setText("Building");
+
+        tblRequests.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblRequests.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblRequestsMouseClicked(evt);
+            }
+        });
+        scrollInnerRequest.setViewportView(tblRequests);
+
+        scrolRequest.add(scrollInnerRequest);
+
+        btnRequestApproved.setText("Approve");
+        btnRequestApproved.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRequestApprovedActionPerformed(evt);
+            }
+        });
+
+        btnRequestDeny.setText("Deny");
+        btnRequestDeny.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRequestDenyActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout paneRequestLayout = new javax.swing.GroupLayout(paneRequest);
+        paneRequest.setLayout(paneRequestLayout);
+        paneRequestLayout.setHorizontalGroup(
+            paneRequestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneRequestLayout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(scrolRequest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(paneRequestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paneRequestLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(paneRequestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblBuildingRequest)
+                            .addComponent(lblToolName))
+                        .addGap(18, 18, 18)
+                        .addGroup(paneRequestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(intRequestToolName)
+                            .addComponent(combBoxBuilding, 0, 112, Short.MAX_VALUE)))
+                    .addGroup(paneRequestLayout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addComponent(btnSubRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(103, 103, 103))
+            .addGroup(paneRequestLayout.createSequentialGroup()
+                .addGap(73, 73, 73)
+                .addComponent(btnRequestApproved, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(105, 105, 105)
+                .addComponent(btnRequestDeny, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(453, Short.MAX_VALUE))
+        );
+        paneRequestLayout.setVerticalGroup(
+            paneRequestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneRequestLayout.createSequentialGroup()
+                .addGroup(paneRequestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paneRequestLayout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addGroup(paneRequestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(intRequestToolName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblToolName))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(paneRequestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(combBoxBuilding, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblBuildingRequest))
+                        .addGap(40, 40, 40)
+                        .addComponent(btnSubRequest))
+                    .addGroup(paneRequestLayout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(scrolRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(paneRequestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnRequestApproved)
+                    .addComponent(btnRequestDeny))
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+
+        lpaneEquipment.add(paneRequest, "card5");
+
+        btnRequest.setText("Request Tool");
+        btnRequest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRequestActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panEquipmentLayout = new javax.swing.GroupLayout(panEquipment);
         panEquipment.setLayout(panEquipmentLayout);
@@ -461,7 +800,8 @@ public class ECS extends javax.swing.JFrame {
                 .addGroup(panEquipmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnCheckOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCheckIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEditInventory, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEditInventory, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                    .addComponent(btnRequest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lpaneEquipment, javax.swing.GroupLayout.PREFERRED_SIZE, 781, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -479,6 +819,8 @@ public class ECS extends javax.swing.JFrame {
                 .addComponent(btnCheckIn)
                 .addGap(33, 33, 33)
                 .addComponent(btnEditInventory)
+                .addGap(45, 45, 45)
+                .addComponent(btnRequest)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -495,8 +837,8 @@ public class ECS extends javax.swing.JFrame {
 
         inptFinancialLoss.setEditable(false);
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel8.setText("Total Financial Loss To Date:");
+        lblFinancialLoss.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblFinancialLoss.setText("Total Financial Loss To Date:");
 
         tblContingency.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -509,9 +851,9 @@ public class ECS extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane12.setViewportView(tblContingency);
+        scrlPaneContingency.setViewportView(tblContingency);
 
-        scrollPane6.add(jScrollPane12);
+        scrlContingency.add(scrlPaneContingency);
 
         inptFilterReport.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -519,36 +861,36 @@ public class ECS extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel9.setText("Filter (Name or User ID):");
+        lblFilterContingency.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblFilterContingency.setText("Filter (Name or User ID):");
 
         inptTotalContingencies.setEditable(false);
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel12.setText("Total Contingencies");
+        lblTotalContingencies.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblTotalContingencies.setText("Total Contingencies");
 
         javax.swing.GroupLayout paneContingencyLayout = new javax.swing.GroupLayout(paneContingency);
         paneContingency.setLayout(paneContingencyLayout);
         paneContingencyLayout.setHorizontalGroup(
-            paneContingencyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(paneContingencyLayout.createSequentialGroup()
+            paneContingencyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneContingencyLayout.createSequentialGroup()
                 .addGap(61, 61, 61)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblFinancialLoss, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(inptFinancialLoss, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43)
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblTotalContingencies, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(inptTotalContingencies, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(275, Short.MAX_VALUE))
-            .addGroup(paneContingencyLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneContingencyLayout.createSequentialGroup()
                 .addGroup(paneContingencyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(paneContingencyLayout.createSequentialGroup()
                         .addGap(58, 58, 58)
-                        .addComponent(scrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(scrlContingency, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(paneContingencyLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel9)
+                        .addComponent(lblFilterContingency)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(inptFilterReport, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -559,15 +901,15 @@ public class ECS extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addGroup(paneContingencyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(inptFilterReport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
+                    .addComponent(lblFilterContingency))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrlContingency, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(paneContingencyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
+                    .addComponent(lblFinancialLoss)
                     .addComponent(inptFinancialLoss, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(inptTotalContingencies, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12))
+                    .addComponent(lblTotalContingencies))
                 .addGap(35, 35, 35))
         );
 
@@ -642,14 +984,86 @@ public class ECS extends javax.swing.JFrame {
                 .addGap(47, 47, 47))
         );
 
-        btnPrintBuildingRep.getAccessibleContext().setAccessibleName("print");
-
         lpaneReports.add(paneBuildingInventory, "card4");
+
+        paneAllTransactions.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        tbleAllTransactions.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane7.setViewportView(tbleAllTransactions);
+
+        inptFilterAllTrans.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                inptFilterAllTransKeyReleased(evt);
+            }
+        });
+
+        btnPrintAllTransactions.setActionCommand("print");
+        btnPrintAllTransactions.setLabel("Print");
+        btnPrintAllTransactions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrintAllTransactionsActionPerformed(evt);
+            }
+        });
+
+        lblFilterAllTrans.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblFilterAllTrans.setText("Filter (Transaction Type, Eployee Name, UserID, Equipment Name):");
+
+        javax.swing.GroupLayout paneAllTransactionsLayout = new javax.swing.GroupLayout(paneAllTransactions);
+        paneAllTransactions.setLayout(paneAllTransactionsLayout);
+        paneAllTransactionsLayout.setHorizontalGroup(
+            paneAllTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneAllTransactionsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 757, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneAllTransactionsLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblFilterAllTrans)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(inptFilterAllTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50))
+            .addGroup(paneAllTransactionsLayout.createSequentialGroup()
+                .addGap(366, 366, 366)
+                .addComponent(btnPrintAllTransactions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        paneAllTransactionsLayout.setVerticalGroup(
+            paneAllTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneAllTransactionsLayout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addGroup(paneAllTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(inptFilterAllTrans, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblFilterAllTrans))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19)
+                .addComponent(btnPrintAllTransactions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+
+        lpaneReports.add(paneAllTransactions, "card4");
 
         btnContingency.setText("Contingency");
         btnContingency.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnContingencyActionPerformed(evt);
+            }
+        });
+
+        btnAllTransactions.setText("All Transactions");
+        btnAllTransactions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAllTransactionsActionPerformed(evt);
             }
         });
 
@@ -661,8 +1075,9 @@ public class ECS extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addGroup(panReportsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnContingency, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnBuildingInventory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                    .addComponent(btnBuildingInventory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAllTransactions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
                 .addComponent(lpaneReports, javax.swing.GroupLayout.PREFERRED_SIZE, 781, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -673,6 +1088,8 @@ public class ECS extends javax.swing.JFrame {
                 .addComponent(btnContingency)
                 .addGap(18, 18, 18)
                 .addComponent(btnBuildingInventory)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnAllTransactions)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(panReportsLayout.createSequentialGroup()
                 .addContainerGap()
@@ -682,28 +1099,929 @@ public class ECS extends javax.swing.JFrame {
 
         tabDashboard.addTab("Reports", panReports);
 
+        panProfile1.setBackground(new java.awt.Color(153, 204, 255));
+
+        lblGender3.setText("Gender:");
+
+        lblDriverLicense3.setText("Diver License:");
+
+        lblFirstName4.setText("First Name:");
+
+        lblEMail3.setText("E-mail:");
+
+        lblMiddleName3.setText("M.I.");
+
+        lblEmployeeID3.setText("Employee ID: ");
+
+        lblLastName4.setText("Last Name:");
+
+        lblUsername5.setText("Username:");
+
+        lblPhoneNo3.setText("Phone No:");
+
+        lblIssueDate3.setText("Issue Date:");
+
+        lblExpDate2.setText("Exp. Date:");
+
+        lblDLAdderss4.setText("D.L. Address 1:");
+
+        lblDLAddress5.setText("D.L. Address 2:");
+
+        lblCity5.setText("City:");
+
+        lblState5.setText("State:");
+
+        lblZipCode5.setText("Zip Code:");
+
+        lblDash5.setText("-");
+
+        lblSSN3.setText("SSN:");
+
+        lblFEIN3.setText("or FEIN:");
+
+        lblEmploymentStatus3.setText("Employment Status:");
+
+        lblSearchEmplID1.setText("Search Emp. ID:");
+
+        lblSearchEquipID1.setText("Search Equip. ID:");
+
+        javax.swing.GroupLayout panProfile1Layout = new javax.swing.GroupLayout(panProfile1);
+        panProfile1.setLayout(panProfile1Layout);
+        panProfile1Layout.setHorizontalGroup(
+            panProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panProfile1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panProfile1Layout.createSequentialGroup()
+                        .addComponent(lblDLAddress5, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(solDLAddress6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panProfile1Layout.createSequentialGroup()
+                        .addGap(0, 262, Short.MAX_VALUE)
+                        .addGroup(panProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(panProfile1Layout.createSequentialGroup()
+                                .addComponent(lblCity5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(solCity5, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblState5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(solState5, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblZipCode5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(solZipCode5, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblDash5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(solPlus44, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panProfile1Layout.createSequentialGroup()
+                                .addComponent(lblEmploymentStatus3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(solEmploymentStatus3, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblGender3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(SolGender3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(panProfile1Layout.createSequentialGroup()
+                                .addComponent(lblEMail3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(solEMail2, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblPhoneNo3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(solPhoneNo3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panProfile1Layout.createSequentialGroup()
+                                .addComponent(lblDLAdderss4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(solDLAddress5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(panProfile1Layout.createSequentialGroup()
+                                .addComponent(lblDriverLicense3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(solDriverLicense3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblIssueDate3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(solIssueDate3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblExpDate2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(solExpDate2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panProfile1Layout.createSequentialGroup()
+                                .addComponent(lblSearchEquipID1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtSearchEquipID1))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panProfile1Layout.createSequentialGroup()
+                                .addComponent(lblSearchEmplID1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtSearchEmplID1))
+                            .addGroup(panProfile1Layout.createSequentialGroup()
+                                .addComponent(lblUsername5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(solUsername5, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblEmployeeID3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(solEmployeeIDNo3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panProfile1Layout.createSequentialGroup()
+                                .addGroup(panProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(panProfile1Layout.createSequentialGroup()
+                                        .addComponent(lblFirstName4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(solFirstName4, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblMiddleName3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(solMiddleName2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(panProfile1Layout.createSequentialGroup()
+                                        .addComponent(lblSSN3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(solSSN3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panProfile1Layout.createSequentialGroup()
+                                        .addComponent(lblFEIN3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(solFEIN3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(panProfile1Layout.createSequentialGroup()
+                                        .addComponent(lblLastName4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(solLastName4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                        .addGap(0, 262, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        panProfile1Layout.setVerticalGroup(
+            panProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panProfile1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSearchEmplID1)
+                    .addComponent(txtSearchEmplID1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSearchEquipID1)
+                    .addComponent(txtSearchEquipID1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblUsername5)
+                        .addComponent(lblEmployeeID3))
+                    .addComponent(solUsername5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(solEmployeeIDNo3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblFirstName4)
+                    .addComponent(solFirstName4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblMiddleName3)
+                    .addComponent(solMiddleName2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblLastName4)
+                    .addComponent(solLastName4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(solSSN3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSSN3)
+                    .addComponent(lblFEIN3)
+                    .addComponent(solFEIN3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblDriverLicense3)
+                    .addComponent(solIssueDate3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblIssueDate3)
+                    .addComponent(lblExpDate2)
+                    .addComponent(solExpDate2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(solDriverLicense3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblDLAdderss4)
+                    .addComponent(solDLAddress5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblDLAddress5)
+                    .addComponent(solDLAddress6, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lblCity5, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(lblState5, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(solCity5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblZipCode5)
+                    .addComponent(solState5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(solZipCode5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lblDash5, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(solPlus44, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblEMail3)
+                    .addComponent(solEMail2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPhoneNo3)
+                    .addComponent(solPhoneNo3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panProfile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblEmploymentStatus3)
+                    .addComponent(solEmploymentStatus3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SolGender3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblGender3))
+                .addContainerGap(151, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout panProfileLayout = new javax.swing.GroupLayout(panProfile);
         panProfile.setLayout(panProfileLayout);
         panProfileLayout.setHorizontalGroup(
             panProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(panProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panProfileLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(panProfile1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         panProfileLayout.setVerticalGroup(
             panProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(panProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panProfileLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(panProfile1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         tabDashboard.addTab("Profile", panProfile);
+
+        panUserInput.setBackground(new java.awt.Color(153, 204, 255));
+
+        lblUserProfileTitle1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblUserProfileTitle1.setText("User Profile Form");
+
+        lblUsername3.setText("Username:");
+
+        txtUsername3.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtUsername3FocusLost(evt);
+            }
+        });
+
+        lblEmployeeID1.setText("Employee ID: ");
+
+        lblFirstName2.setText("First Name:");
+
+        txtFirstName2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtFirstName2FocusLost(evt);
+            }
+        });
+
+        lblMiddleName1.setText("M.I.");
+
+        txtMiddleName1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtMiddleName1FocusLost(evt);
+            }
+        });
+
+        lblLastName2.setText("Last Name:");
+
+        txtLastName2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtLastName2FocusLost(evt);
+            }
+        });
+
+        lblAdderss1.setText("Home Address 1:");
+
+        txtAddress1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtAddress1FocusLost(evt);
+            }
+        });
+
+        lblAddress2.setText("Home Address 2:");
+
+        txtAddress2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtAddress2FocusLost(evt);
+            }
+        });
+
+        lblCity1.setText("City:");
+
+        txtCity1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCity1FocusLost(evt);
+            }
+        });
+
+        lblState1.setText("State:");
+
+        selState1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        selState1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                selState1FocusLost(evt);
+            }
+        });
+
+        lblZipCode1.setText("Zip Code:");
+
+        txtZipCode1.setText("XXXXX");
+        txtZipCode1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtZipCode1FocusLost(evt);
+            }
+        });
+
+        lblDash.setText("-");
+
+        txtPlus41.setText("XXXX");
+        txtPlus41.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtPlus41FocusLost(evt);
+            }
+        });
+
+        lblEMail1.setText("E-mail:");
+
+        txtEmail1.setText("username@domain.com");
+        txtEmail1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtEmail1FocusLost(evt);
+            }
+        });
+
+        lblPhoneNo.setText("Phone No:");
+
+        txtFormPhoneNo1.setText("XXX-XXX-XXXX");
+        txtFormPhoneNo1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtFormPhoneNo1FocusLost(evt);
+            }
+        });
+
+        lblDateofBirth1.setText("DOB:");
+
+        txtDOB1.setText("MM/DD/YYYY");
+        txtDOB1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtDOB1FocusLost(evt);
+            }
+        });
+
+        lblGender1.setText("Gender:");
+
+        radMale1.setBackground(new java.awt.Color(153, 204, 255));
+        radMale1.setText("Male");
+        radMale1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                radMale1MouseClicked(evt);
+            }
+        });
+
+        radFemale1.setBackground(new java.awt.Color(153, 204, 255));
+        radFemale1.setText("Female");
+        radFemale1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                radFemale1MouseClicked(evt);
+            }
+        });
+
+        lblPassword4.setText("Password:");
+
+        txtPassword4.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtPassword4FocusLost(evt);
+            }
+        });
+
+        lblPassword5.setText("Confirm Password:");
+
+        txtPassword5.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtPassword5FocusLost(evt);
+            }
+        });
+
+        lblSSN1.setText("SSN:");
+
+        txtSSN1.setText("XXX-XX-XXXX");
+        txtSSN1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtSSN1FocusLost(evt);
+            }
+        });
+
+        lblFEIN1.setText("or FEIN:");
+
+        txtFEIN1.setText("XX-XXXXXXX");
+        txtFEIN1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtFEIN1FocusLost(evt);
+            }
+        });
+
+        lblBuildingId1.setText("Building Id:");
+
+        lblEmploymentStatus1.setText("Employment Status:");
+
+        radActive1.setBackground(new java.awt.Color(153, 204, 255));
+        radActive1.setText("Active");
+        radActive1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                radActive1MouseClicked(evt);
+            }
+        });
+
+        radInactive1.setBackground(new java.awt.Color(153, 204, 255));
+        radInactive1.setText("Inactive");
+        radInactive1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                radInactive1MouseClicked(evt);
+            }
+        });
+
+        radTerminated1.setBackground(new java.awt.Color(153, 204, 255));
+        radTerminated1.setText("Terminated");
+        radTerminated1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                radTerminated1MouseClicked(evt);
+            }
+        });
+
+        btnClear1.setBackground(new java.awt.Color(153, 204, 255));
+        btnClear1.setText("Clear");
+        btnClear1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClear1ActionPerformed(evt);
+            }
+        });
+
+        btnSave1.setBackground(new java.awt.Color(153, 204, 255));
+        btnSave1.setText("Save");
+        btnSave1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSave1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panUserInputLayout = new javax.swing.GroupLayout(panUserInput);
+        panUserInput.setLayout(panUserInputLayout);
+        panUserInputLayout.setHorizontalGroup(
+            panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panUserInputLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panUserInputLayout.createSequentialGroup()
+                            .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panUserInputLayout.createSequentialGroup()
+                                    .addComponent(lblUsername3)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtUsername3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panUserInputLayout.createSequentialGroup()
+                                    .addComponent(lblFirstName2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtFirstName2)))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panUserInputLayout.createSequentialGroup()
+                                    .addComponent(lblEmployeeID1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                .addGroup(panUserInputLayout.createSequentialGroup()
+                                    .addComponent(lblMiddleName1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtMiddleName1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(lblLastName2)
+                                    .addGap(9, 9, 9)))
+                            .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(panUserInputLayout.createSequentialGroup()
+                                    .addComponent(txtLastName2)
+                                    .addGap(2, 2, 2))
+                                .addComponent(lblEmployeeIDNum1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(118, 118, 118))
+                        .addGroup(panUserInputLayout.createSequentialGroup()
+                            .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(lblAdderss1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblAddress2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtAddress2, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
+                                .addComponent(txtAddress1))
+                            .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGroup(panUserInputLayout.createSequentialGroup()
+                        .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panUserInputLayout.createSequentialGroup()
+                                .addComponent(lblSSN1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtSSN1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblFEIN1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtFEIN1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblBuildingId1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtBuildingId1))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panUserInputLayout.createSequentialGroup()
+                                .addComponent(lblEMail1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtEmail1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panUserInputLayout.createSequentialGroup()
+                                .addComponent(lblCity1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCity1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblState1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(selState1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblZipCode1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtZipCode1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblDash, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtPlus41, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panUserInputLayout.createSequentialGroup()
+                                .addComponent(lblPassword4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtPassword4, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblPassword5)
+                                .addGap(26, 26, 26)
+                                .addComponent(txtPassword5))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panUserInputLayout.createSequentialGroup()
+                                .addComponent(lblEmploymentStatus1)
+                                .addGap(18, 18, 18)
+                                .addComponent(radActive1)
+                                .addGap(18, 18, 18)
+                                .addComponent(radInactive1)
+                                .addGap(18, 18, 18)
+                                .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panUserInputLayout.createSequentialGroup()
+                                        .addComponent(btnClear1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnSave1))
+                                    .addComponent(radTerminated1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panUserInputLayout.createSequentialGroup()
+                                .addComponent(lblPhoneNo)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtFormPhoneNo1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblDateofBirth1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtDOB1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblGender1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(radMale1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(radFemale1)))
+                        .addContainerGap())))
+            .addGroup(panUserInputLayout.createSequentialGroup()
+                .addGap(139, 139, 139)
+                .addComponent(lblUserProfileTitle1)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        panUserInputLayout.setVerticalGroup(
+            panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panUserInputLayout.createSequentialGroup()
+                .addComponent(lblUserProfileTitle1)
+                .addGap(5, 5, 5)
+                .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblEmployeeIDNum1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblUsername3)
+                        .addComponent(txtUsername3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblEmployeeID1)))
+                .addGap(5, 5, 5)
+                .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblFirstName2)
+                    .addComponent(txtFirstName2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblLastName2)
+                    .addComponent(txtLastName2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblMiddleName1)
+                    .addComponent(txtMiddleName1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAdderss1)
+                    .addComponent(txtAddress1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAddress2)
+                    .addComponent(txtAddress2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtCity1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(selState1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblState1)
+                    .addComponent(lblZipCode1)
+                    .addComponent(txtZipCode1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDash)
+                    .addComponent(txtPlus41, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCity1))
+                .addGap(5, 5, 5)
+                .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEMail1)
+                    .addComponent(txtEmail1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(radFemale1)
+                    .addComponent(radMale1)
+                    .addComponent(lblGender1)
+                    .addComponent(txtDOB1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDateofBirth1)
+                    .addComponent(txtFormPhoneNo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPhoneNo))
+                .addGap(5, 5, 5)
+                .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPassword4)
+                    .addComponent(txtPassword4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPassword5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPassword5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSSN1)
+                    .addComponent(txtSSN1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblFEIN1)
+                    .addComponent(txtFEIN1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblBuildingId1)
+                    .addComponent(txtBuildingId1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(radTerminated1)
+                    .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblEmploymentStatus1)
+                        .addComponent(radActive1)
+                        .addComponent(radInactive1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panUserInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnClear1)
+                    .addComponent(btnSave1))
+                .addContainerGap(121, Short.MAX_VALUE))
+        );
+
+        panUserResult.setBackground(new java.awt.Color(153, 204, 255));
+
+        lblUserProfileTitle2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblUserProfileTitle2.setText("Saved User Profile");
+
+        lblUsername4.setText("Username:");
+
+        lblEmployeeID2.setText("Employee ID: ");
+
+        lblFirstName3.setText("First Name:");
+
+        lblMiddleName2.setText("M.I.");
+
+        lblLastName3.setText("Last Name:");
+
+        lblAdderss2.setText("Home Address 1:");
+
+        lblAddress3.setText("Home Address 2:");
+
+        lblCity2.setText("City:");
+
+        lblState2.setText("State:");
+
+        lblZipcode3.setText("Zip Code:");
+
+        lblDash1.setText("-");
+
+        lblEMail2.setText("E-mail:");
+
+        lblPhoneNo2.setText("Phone No:");
+
+        lblDOB2.setText("DOB:");
+
+        lblGender2.setText("Gender:");
+
+        lblPassword6.setText("Password:");
+
+        lblPassword7.setText("Confirm Password:");
+
+        lblSSN2.setText("SSN:");
+
+        lblFEIN2.setText("or FEIN:");
+
+        lblEmploymentStatus2.setText("Employment Status:");
+
+        jLabel13.setText("Building Id:");
+
+        btnEdit1.setBackground(new java.awt.Color(153, 204, 255));
+        btnEdit1.setText("Edit");
+        btnEdit1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEdit1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panUserResultLayout = new javax.swing.GroupLayout(panUserResult);
+        panUserResult.setLayout(panUserResultLayout);
+        panUserResultLayout.setHorizontalGroup(
+            panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panUserResultLayout.createSequentialGroup()
+                .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panUserResultLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panUserResultLayout.createSequentialGroup()
+                                .addComponent(lblPhoneNo2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(solPhoneNo2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblDOB2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(solDOB2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblGender2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(SolGender2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panUserResultLayout.createSequentialGroup()
+                                .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblUsername4)
+                                    .addComponent(lblFirstName3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(solFirstName3, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                                    .addComponent(solUsername4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblMiddleName2)
+                                .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(panUserResultLayout.createSequentialGroup()
+                                        .addGap(17, 17, 17)
+                                        .addComponent(lblEmployeeID2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(solEmployeeIDNo1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(106, 106, 106))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panUserResultLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(solMiddleName1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblLastName3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(solLastName3, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(solFEIN2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panUserResultLayout.createSequentialGroup()
+                                    .addComponent(lblEmploymentStatus2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(solEmploymentStatus2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(55, 55, 55))
+                                .addComponent(btnEdit1))
+                            .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panUserResultLayout.createSequentialGroup()
+                                    .addComponent(lblEMail2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(solEMail1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panUserResultLayout.createSequentialGroup()
+                                    .addComponent(lblCity2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(solCity2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(lblState2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(solState2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(lblZipcode3)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(solZipCode3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(lblDash1, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(solPlus42, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panUserResultLayout.createSequentialGroup()
+                                    .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(lblAdderss2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lblAddress3))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(solAddress2, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
+                                        .addComponent(solAddress3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(panUserResultLayout.createSequentialGroup()
+                                .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panUserResultLayout.createSequentialGroup()
+                                        .addComponent(lblPassword6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(solPassword6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panUserResultLayout.createSequentialGroup()
+                                        .addComponent(lblSSN2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(solSSN2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblFEIN2)))
+                                .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(panUserResultLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblPassword7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(solPassword7, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(panUserResultLayout.createSequentialGroup()
+                                        .addGap(90, 90, 90)
+                                        .addComponent(jLabel13)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                    .addGroup(panUserResultLayout.createSequentialGroup()
+                        .addGap(158, 158, 158)
+                        .addComponent(lblUserProfileTitle2)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panUserResultLayout.setVerticalGroup(
+            panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panUserResultLayout.createSequentialGroup()
+                .addComponent(lblUserProfileTitle2)
+                .addGap(5, 5, 5)
+                .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblUsername4)
+                    .addComponent(solUsername4, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+                    .addComponent(lblEmployeeID2)
+                    .addComponent(solEmployeeIDNo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(lblMiddleName2)
+                        .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblFirstName3)
+                            .addComponent(lblLastName3))
+                        .addComponent(solFirstName3, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+                        .addComponent(solLastName3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(solMiddleName1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblAdderss2)
+                    .addComponent(solAddress2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblAddress3)
+                    .addComponent(solAddress3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(solPlus42, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(solZipCode3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(solState2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblState2)
+                        .addComponent(lblZipcode3)
+                        .addComponent(lblDash1)
+                        .addComponent(lblCity2))
+                    .addComponent(solCity2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblEMail2)
+                    .addComponent(solEMail1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(solPhoneNo2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblGender2)
+                        .addComponent(lblDOB2)
+                        .addComponent(lblPhoneNo2)
+                        .addComponent(solDOB2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(SolGender2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panUserResultLayout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblPassword6)
+                            .addComponent(solPassword6, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panUserResultLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblPassword7)
+                            .addComponent(solPassword7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblSSN2)
+                    .addComponent(lblFEIN2)
+                    .addComponent(solSSN2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(solFEIN2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addGroup(panUserResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblEmploymentStatus2)
+                    .addComponent(solEmploymentStatus2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addComponent(btnEdit1)
+                .addGap(53, 53, 53))
+        );
 
         javax.swing.GroupLayout panUsersLayout = new javax.swing.GroupLayout(panUsers);
         panUsers.setLayout(panUsersLayout);
         panUsersLayout.setHorizontalGroup(
             panUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(panUsersLayout.createSequentialGroup()
+                .addComponent(panUserInput, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panUserResult, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 84, Short.MAX_VALUE))
         );
         panUsersLayout.setVerticalGroup(
             panUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panUsersLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(panUserResult, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panUserInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         tabDashboard.addTab("Users", panUsers);
@@ -750,52 +2068,21 @@ public class ECS extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1045, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 494, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnCheckOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckOutActionPerformed
-        // TODO add your handling code here:
-        switchPanels(paneCheckOut,1);
-        
-
-        
-    }//GEN-LAST:event_btnCheckOutActionPerformed
-
-    private void btnCheckInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckInActionPerformed
-        // TODO add your handling code here:
-        switchPanels(paneCheckIn,1);
-
-    }//GEN-LAST:event_btnCheckInActionPerformed
-
-    private void btnContingencyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContingencyActionPerformed
-        // TODO add your handling code here:
-        switchPanels(paneContingency,2);
-   
-        
-    }//GEN-LAST:event_btnContingencyActionPerformed
-
-    private void btnEditInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditInventoryActionPerformed
-        // TODO add your handling code here:
-                switchPanels(paneEditInventory,1);
-
-    }//GEN-LAST:event_btnEditInventoryActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
@@ -826,15 +2113,695 @@ public class ECS extends javax.swing.JFrame {
             jLayeredPane1.revalidate();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void txtUsername3FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsername3FocusLost
+        String i = "";
+        i = txtUsername3.getText();
+        this.solUsername4.setText(i);
+    }//GEN-LAST:event_txtUsername3FocusLost
+
+    private void txtFirstName2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFirstName2FocusLost
+        String i = "";
+        i = txtFirstName2.getText();
+        this.solFirstName3.setText(i);
+    }//GEN-LAST:event_txtFirstName2FocusLost
+
+    private void txtMiddleName1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMiddleName1FocusLost
+        String i = "";
+        i = txtMiddleName1.getText();
+        this.solMiddleName1.setText(i);
+    }//GEN-LAST:event_txtMiddleName1FocusLost
+
+    private void txtLastName2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtLastName2FocusLost
+        String i = "";
+        i = txtLastName2.getText();
+        this.solLastName3.setText(i);
+    }//GEN-LAST:event_txtLastName2FocusLost
+
+    private void txtAddress1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAddress1FocusLost
+        String i = "";
+        i = txtAddress1.getText();
+        this.solAddress2.setText(i);
+    }//GEN-LAST:event_txtAddress1FocusLost
+
+    private void txtAddress2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAddress2FocusLost
+        String i = "";
+        i = txtAddress2.getText();
+        this.solAddress3.setText(i);
+    }//GEN-LAST:event_txtAddress2FocusLost
+
+    private void txtCity1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCity1FocusLost
+        String i = "";
+        i = txtCity1.getText();
+        this.solCity2.setText(i);
+    }//GEN-LAST:event_txtCity1FocusLost
+
+    private void selState1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_selState1FocusLost
+        String i = "";
+        //String States[] = {"AL", "GA"},
+        //i = selState1.getSelectedItem().toString();
+        //this.solState2.setText(i);
+    }//GEN-LAST:event_selState1FocusLost
+
+    private void txtZipCode1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtZipCode1FocusLost
+        String i = "";
+        i = txtZipCode1.getText();
+        this.solZipCode3.setText(i);
+    }//GEN-LAST:event_txtZipCode1FocusLost
+
+    private void txtPlus41FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPlus41FocusLost
+        String i = "";
+        i = txtPlus41.getText();
+        this.solPlus42.setText(i);
+    }//GEN-LAST:event_txtPlus41FocusLost
+
+    private void txtEmail1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmail1FocusLost
+        String i = "";
+        i = txtEmail1.getText();
+        this.solEMail1.setText(i);
+    }//GEN-LAST:event_txtEmail1FocusLost
+
+    private void txtFormPhoneNo1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFormPhoneNo1FocusLost
+        String i = "";
+        i = txtFormPhoneNo1.getText();
+        this.solPhoneNo2.setText(i);
+    }//GEN-LAST:event_txtFormPhoneNo1FocusLost
+
+    private void txtDOB1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDOB1FocusLost
+        String i = "";
+        i = txtDOB1.getText();
+        this.solDOB2.setText(i);
+    }//GEN-LAST:event_txtDOB1FocusLost
+
+    private void radMale1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radMale1MouseClicked
+        String i = "Male";
+        i = radMale1.getText();
+        this.SolGender2.setText(i);
+    }//GEN-LAST:event_radMale1MouseClicked
+
+    private void radFemale1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radFemale1MouseClicked
+        String i = "Female";
+        i = radFemale1.getText();
+        this.SolGender2.setText(i);
+    }//GEN-LAST:event_radFemale1MouseClicked
+
+    private void txtPassword4FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPassword4FocusLost
+        String i = "";
+        i = txtPassword4.getText();
+        this.solPassword6.setText("**********");
+    }//GEN-LAST:event_txtPassword4FocusLost
+
+    private void txtPassword5FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPassword5FocusLost
+        String i = "";
+        i = txtPassword5.getText();
+        this.solPassword7.setText("**********");
+    }//GEN-LAST:event_txtPassword5FocusLost
+
+    private void txtSSN1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSSN1FocusLost
+        String i = "";
+        i = txtSSN1.getText();
+        this.solSSN2.setText(i);
+    }//GEN-LAST:event_txtSSN1FocusLost
+
+    private void txtFEIN1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFEIN1FocusLost
+        String i = "";
+        i = txtFEIN1.getText();
+        this.solFEIN2.setText(i);
+    }//GEN-LAST:event_txtFEIN1FocusLost
+
+    private void radActive1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radActive1MouseClicked
+        String i = "Active";
+        i = radActive1.getText();
+        this.solEmploymentStatus2.setText(i);
+    }//GEN-LAST:event_radActive1MouseClicked
+
+    private void radInactive1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radInactive1MouseClicked
+        String i = "Inactive";
+        i = radInactive1.getText();
+        this.solEmploymentStatus2.setText(i);
+    }//GEN-LAST:event_radInactive1MouseClicked
+
+    private void radTerminated1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radTerminated1MouseClicked
+        String i = "Terminated";
+        i = radTerminated1.getText();
+        this.solEmploymentStatus2.setText(i);
+    }//GEN-LAST:event_radTerminated1MouseClicked
+
+    private void btnClear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClear1ActionPerformed
+        clearForm();
+    }//GEN-LAST:event_btnClear1ActionPerformed
+
+    private void btnSave1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave1ActionPerformed
+        Random r = new Random();
+        String randomnumber = String.valueOf(r.nextInt(10000));
+        String i = "";
+        lblEmployeeIDNum1.setText("GB-" + randomnumber);
+        solEmployeeIDNo1.setText("GB-" + randomnumber);
+        i = txtUsername3.getText();
+        this.solUsername4.setText(i);
+    }//GEN-LAST:event_btnSave1ActionPerformed
+
+    private void btnEdit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEdit1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEdit1ActionPerformed
+
+    private void btnCheckOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckOutActionPerformed
+        // TODO add your handling code here:
+        switchPanels(paneCheckOut,1);
+        DefaultTableModel tblModel = new DefaultTableModel();
+        jTable2.setModel(tblModel);
+        String[] colTitles = {"Equipment Id", "Equipment Name", "Price", "Status", "Building Id", "Date Added"};
+        tblModel.setColumnIdentifiers(colTitles);
+
+        ecsDB db = new ecsDB();
+        //populate jtable
+        try {
+            ArrayList<Equipment> list = db.getEquipment(0,userId);
+            for (int i = 0; i < list.size(); i++)
+            {
+                Equipment equipment = list.get(i);
+
+                Object[] row = {equipment.getId(), equipment.getName(), equipment.getPrice(), equipment.getStatus(),
+                    equipment.getBuildingId(), equipment.getDateAdded()};
+
+                tblModel.addRow(row);
+            }
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "JDBC driver not found", "Driver Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnCheckOutActionPerformed
+
+    private void btnCheckInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckInActionPerformed
+        // TODO add your handling code here:
+        switchPanels(paneCheckIn,1);
+        // TODO add your handling code here:
+        switchPanels(paneCheckIn,1);
+        //sets the table model for the jtable and adds in the column titles
+        DefaultTableModel tblModel = new DefaultTableModel();
+        tblCheckIn.setModel(tblModel);
+        String[] colTitles = {"Equipment Id", "Equipment Name", "Price", "Status", "Building Id", "Date Added"};
+        tblModel.setColumnIdentifiers(colTitles);
+
+        ecsDB db = new ecsDB();
+        //populate jtable
+        try {
+            ArrayList<Equipment> list = db.getEquipment(2,userId);
+            for (int i = 0; i < list.size(); i++)
+            {
+                Equipment equipment = list.get(i);
+
+                Object[] row = {equipment.getId(), equipment.getName(), equipment.getPrice(), equipment.getStatus(),
+                    equipment.getBuildingId(), equipment.getDateAdded()};
+
+                tblModel.addRow(row);
+            }
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "JDBC driver not found", "Driver Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnCheckInActionPerformed
+
+    private void btnEditInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditInventoryActionPerformed
+        // TODO add your handling code here:
+        switchPanels(paneEditInventory,1);
+        //sets the table model for the jtable and adds in the column titles
+        DefaultTableModel tblModel = new DefaultTableModel();
+        jTable3.setModel(tblModel);
+        String[] colTitles = {"Equipment Id", "Equipment Name", "Price", "Status", "Building Id", "Date Added"};
+        tblModel.setColumnIdentifiers(colTitles);
+
+        ecsDB db = new ecsDB();
+        //populate jtable
+        try {
+            ArrayList<Equipment> list = db.getEquipment(0,userId);
+            for (int i = 0; i < list.size(); i++)
+            {
+                Equipment equipment = list.get(i);
+
+                Object[] row = {equipment.getId(), equipment.getName(), equipment.getPrice(), equipment.getStatus(),
+                    equipment.getBuildingId(), equipment.getDateAdded()};
+
+                tblModel.addRow(row);
+            }
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "JDBC driver not found", "Driver Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditInventoryActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // Select a tool to check out from jtable2 and check it out
+        // the columns are used to grab the correct column of data at a selected row
+        int column = 0;
+        int column1 = 1;
+        int column3 = 2;
+        int column2 = 3;
+        int column4 = 4;
+        int column5 = 5;
+        //user selected row of jtable
+        int row = jTable2.getSelectedRow();
+        //equipment Id
+        String value = jTable2.getModel().getValueAt(row, column).toString();
+        //status
+        String value2 = jTable2.getModel().getValueAt(row, column2).toString();
+        //convert string value to int
+        int equipmentId = Integer.parseInt(value);
+        //Checks out the tool, changes avilable to out
+        if(value2.equals("Available"))
+        {
+            value2 = "Out";
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Not Avilable for check out");
+        }
+        //grabs the rest of the equipment class info
+        String equipmentName = jTable2.getModel().getValueAt(row, column1).toString();
+        String equipmentPrice = jTable2.getModel().getValueAt(row, column3).toString();
+        double equipPrice = Double.parseDouble(equipmentPrice);
+        String equipmentBuilding = jTable2.getModel().getValueAt(row, column4).toString();
+        int equipBuilding = Integer.parseInt(equipmentBuilding);
+        String equipmentDate = jTable2.getModel().getValueAt(row, column5).toString();
+        //create equipment type to save
+        Equipment equipment;
+        equipment = new Equipment(equipmentId, equipmentName, equipPrice, value2, equipBuilding, equipmentDate);
+        //open database
+        ecsDB db = new ecsDB();
+        //save changes
+
+        try{
+            db.equipmentCheckOut(equipment,"Out",userId);
+            JOptionPane.showMessageDialog(this, "Contact was written to the database");
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "JDBC driver not found", "Driver Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void tblCheckInMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCheckInMouseClicked
+        // TODO add your handling code here:
+        // TODO add your handling code here:
+        // int selectedRowIndex = tblCheckIn.getSelectedRow();
+        Object selectedObjectx = (Object) tblCheckIn.getModel().getValueAt(tblCheckIn.getSelectedRow(), 3);
+        System.out.println(selectedObjectx);
+        selectCheckIn=(String) selectedObjectx;
+
+        if(selectCheckIn.equals("Out")){
+            System.out.println(selectedObjectx);
+            btnCheckInAction.setEnabled(true);
+            btnBrokenAction.setEnabled(true);
+            btnStolenAction.setEnabled(true);
+            btnLostAction.setEnabled(true);
+
+        }
+        else{       System.out.println("sdf");
+
+            btnCheckInAction.setEnabled(false);
+            btnBrokenAction.setEnabled(false);
+            btnStolenAction.setEnabled(false);
+            btnLostAction.setEnabled(false);}
+    }//GEN-LAST:event_tblCheckInMouseClicked
+
+    private void btnCheckInActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckInActionActionPerformed
+        // TODO add your handling code here:
+        // Check in the tool if not broken, lost, or stolen
+        // the columns are used to grab the correct column of data at a selected row
+        int column = 0;
+        int column1 = 1;
+        int column3 = 2;
+        int column2 = 3;
+        int column4 = 4;
+        int column5 = 5;
+        //user selected row of jtable
+        int row = tblCheckIn.getSelectedRow();
+        //equipment Id
+        String value = tblCheckIn.getModel().getValueAt(row, column).toString();
+        //status
+        String value2 = tblCheckIn.getModel().getValueAt(row, column2).toString();
+        //convert string value to int
+        int equipmentId = Integer.parseInt(value);
+        //Checks in the tool, changes out to avilable
+        if(value2.equals("Out"))
+        {
+            value2 = "Available";
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Not Avilable for check in");
+        }
+        //grabs the rest of the equipment class info
+        String equipmentName = tblCheckIn.getModel().getValueAt(row, column1).toString();
+        String equipmentPrice = tblCheckIn.getModel().getValueAt(row, column3).toString();
+        double equipPrice = Double.parseDouble(equipmentPrice);
+        String equipmentBuilding = tblCheckIn.getModel().getValueAt(row, column4).toString();
+        int equipBuilding = Integer.parseInt(equipmentBuilding);
+        String equipmentDate = tblCheckIn.getModel().getValueAt(row, column5).toString();
+        Equipment equipment;
+        //create equipment type to save
+        equipment = new Equipment(equipmentId, equipmentName, equipPrice, value2, equipBuilding, equipmentDate);
+        //open database
+        ecsDB db = new ecsDB();
+        //save changes
+        try{
+            db.equipmentCheckOut(equipment,"Available",userId);
+            JOptionPane.showMessageDialog(this, "Contact was written to the database");
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "JDBC driver not found", "Driver Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnCheckInActionActionPerformed
+
+    private void btnStolenActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStolenActionActionPerformed
+        // TODO add your handling code here:
+        int column = 0;
+        int column1 = 1;
+        int column3 = 2;
+        int column2 = 3;
+        int column4 = 4;
+        int column5 = 5;
+        //user selected row of jtable
+        int row = tblCheckIn.getSelectedRow();
+        //equipment Id
+        String value = tblCheckIn.getModel().getValueAt(row, column).toString();
+        //status
+        String value2 = tblCheckIn.getModel().getValueAt(row, column2).toString();
+        //convert string value to int
+        int equipmentId = Integer.parseInt(value);
+        //Checks in the tool, changes out to avilable
+        if(value2.equals("Out"))
+        {
+            value2 = "Stolen";
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Tool needs to be checked out in order to report stolen.");
+        }
+        //grabs the rest of the equipment class info
+        String equipmentName = tblCheckIn.getModel().getValueAt(row, column1).toString();
+        String equipmentPrice = tblCheckIn.getModel().getValueAt(row, column3).toString();
+        double equipPrice = Double.parseDouble(equipmentPrice);
+        String equipmentBuilding = tblCheckIn.getModel().getValueAt(row, column4).toString();
+        int equipBuilding = Integer.parseInt(equipmentBuilding);
+        String equipmentDate = tblCheckIn.getModel().getValueAt(row, column5).toString();
+        Equipment equipment;
+        //create equipment type to save
+        equipment = new Equipment(equipmentId, equipmentName, equipPrice, value2, equipBuilding, equipmentDate);
+        //open database
+        ecsDB db = new ecsDB();
+        //save changes
+        try{
+            db.equipmentCheckOut(equipment,"Stolen",userId);
+            JOptionPane.showMessageDialog(this, "Contact was written to the database");
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "JDBC driver not found", "Driver Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        }
+
+        private void btnBrokenActionPerformed(java.awt.event.ActionEvent evt) {
+            // reports item as Broken
+            int column = 0;
+            int column1 = 1;
+            int column3 = 2;
+            int column2 = 3;
+            int column4 = 4;
+            int column5 = 5;
+            //user selected row of jtable
+            int row = tblCheckIn.getSelectedRow();
+            //equipment Id
+            String value = tblCheckIn.getModel().getValueAt(row, column).toString();
+            //status
+            String value2 = tblCheckIn.getModel().getValueAt(row, column2).toString();
+            //convert string value to int
+            int equipmentId = Integer.parseInt(value);
+            //Checks in the tool, changes out to avilable
+            if(value2.equals("Out"))
+            {
+                value2 = "Broken";
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this, "Tool needs to be checked out in order to report broken.");
+            }
+            //grabs the rest of the equipment class info
+            String equipmentName = tblCheckIn.getModel().getValueAt(row, column1).toString();
+            String equipmentPrice = tblCheckIn.getModel().getValueAt(row, column3).toString();
+            double equipPrice = Double.parseDouble(equipmentPrice);
+            String equipmentBuilding = tblCheckIn.getModel().getValueAt(row, column4).toString();
+            int equipBuilding = Integer.parseInt(equipmentBuilding);
+            String equipmentDate = tblCheckIn.getModel().getValueAt(row, column5).toString();
+            Equipment equipment;
+            //create equipment type to save
+            equipment = new Equipment(equipmentId, equipmentName, equipPrice, value2, equipBuilding, equipmentDate);
+            //open database
+            ecsDB db = new ecsDB();
+            //save changes
+            try{
+                db.equipmentCheckOut(equipment,"Broken",userId);
+                JOptionPane.showMessageDialog(this, "Contact was written to the database");
+            } catch (ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(this, "JDBC driver not found", "Driver Error", JOptionPane.ERROR_MESSAGE);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+            }
+    }//GEN-LAST:event_btnStolenActionActionPerformed
+
+    private void btnBrokenActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrokenActionActionPerformed
+        // TODO add your handling code here:
+        int column = 0;
+        int column1 = 1;
+        int column3 = 2;
+        int column2 = 3;
+        int column4 = 4;
+        int column5 = 5;
+        //user selected row of jtable
+        int row = tblCheckIn.getSelectedRow();
+        //equipment Id
+        String value = tblCheckIn.getModel().getValueAt(row, column).toString();
+        //status
+        String value2 = tblCheckIn.getModel().getValueAt(row, column2).toString();
+        //convert string value to int
+        int equipmentId = Integer.parseInt(value);
+        //Checks in the tool, changes out to avilable
+        if(value2.equals("Out"))
+        {
+            value2 = "Broken";
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Tool needs to be checked out in order to report broken.");
+        }
+        //grabs the rest of the equipment class info
+        String equipmentName = tblCheckIn.getModel().getValueAt(row, column1).toString();
+        String equipmentPrice = tblCheckIn.getModel().getValueAt(row, column3).toString();
+        double equipPrice = Double.parseDouble(equipmentPrice);
+        String equipmentBuilding = tblCheckIn.getModel().getValueAt(row, column4).toString();
+        int equipBuilding = Integer.parseInt(equipmentBuilding);
+        String equipmentDate = tblCheckIn.getModel().getValueAt(row, column5).toString();
+        Equipment equipment;
+        //create equipment type to save
+        equipment = new Equipment(equipmentId, equipmentName, equipPrice, value2, equipBuilding, equipmentDate);
+        //open database
+        ecsDB db = new ecsDB();
+        //save changes
+        try{
+            db.equipmentCheckOut(equipment,"Broken",userId);
+            JOptionPane.showMessageDialog(this, "Contact was written to the database");
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "JDBC driver not found", "Driver Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnBrokenActionActionPerformed
+
+    private void btnLostActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLostActionActionPerformed
+        // TODO add your handling code here:
+        int column = 0;
+        int column1 = 1;
+        int column3 = 2;
+        int column2 = 3;
+        int column4 = 4;
+        int column5 = 5;
+        //user selected row of jtable
+        int row = tblCheckIn.getSelectedRow();
+        //equipment Id
+        String value = tblCheckIn.getModel().getValueAt(row, column).toString();
+        //status
+        String value2 = tblCheckIn.getModel().getValueAt(row, column2).toString();
+        //convert string value to int
+        int equipmentId = Integer.parseInt(value);
+        //Checks in the tool, changes out to avilable
+        if(value2.equals("Out"))
+        {
+            value2 = "Lost";
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Tool needs to be checked out in order to report lost.");
+        }
+        //grabs the rest of the equipment class info
+        String equipmentName = tblCheckIn.getModel().getValueAt(row, column1).toString();
+        String equipmentPrice = tblCheckIn.getModel().getValueAt(row, column3).toString();
+        double equipPrice = Double.parseDouble(equipmentPrice);
+        String equipmentBuilding = tblCheckIn.getModel().getValueAt(row, column4).toString();
+        int equipBuilding = Integer.parseInt(equipmentBuilding);
+        String equipmentDate = tblCheckIn.getModel().getValueAt(row, column5).toString();
+        Equipment equipment;
+        //create equipment type to save
+        equipment = new Equipment(equipmentId, equipmentName, equipPrice, value2, equipBuilding, equipmentDate);
+        //open database
+        ecsDB db = new ecsDB();
+        //save changes
+        try{
+            db.equipmentCheckOut(equipment, "Lost",userId);
+            JOptionPane.showMessageDialog(this, "Contact was written to the database");
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "JDBC driver not found", "Driver Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            Logger.getLogger(ECS.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnLostActionActionPerformed
+
+    private void jTable3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jTable3MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        // deletes entry from selected row
+        //get the column
+        int column = 0;
+        //get the row
+        int row = jTable3.getSelectedRow();
+        //get the id for what we are deleting
+        String value = jTable3.getModel().getValueAt(row, column).toString();
+        //create a equipment data type
+        Equipment equipment;
+        equipment = new Equipment();
+        //convert string to int
+        int equipmentId = Integer.parseInt(value);
+        //set the Id to delete
+        equipment.setId(equipmentId);
+        //open database
+        ecsDB db = new ecsDB();
+        try{
+            db.delete(equipment);
+            JOptionPane.showMessageDialog(this, "Contact was written to the database");
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "JDBC driver not found", "Driver Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:   // TODO add your handling code here:
+        // adds a new item to inventory (saves it to the database)
+        //create default equipment to populate, and placeholders for data from user
+        Equipment equipment;
+        int id, bId;
+        String name, status, date;
+        Double price;
+        //grab the user entered data and save it to place holders
+        id = Integer.parseInt(jtfEquipmentId.getText());
+        bId = Integer.parseInt(jtfBuilding.getText());
+        name = jtfName.getText();
+        //they are adding a tool so auto set to avilable
+        status = "Available";
+        date = jtfDate.getText();
+        price = Double.parseDouble(jtfPrice.getText());
+        //save user info into new equipment type
+        equipment = new Equipment(id,name,price,status,bId,date);
+        //open database
+        ecsDB db = new ecsDB();
+        //save changes
+        try{
+            db.add(equipment);
+            JOptionPane.showMessageDialog(this, "Contact was written to the database");
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "JDBC driver not found", "Driver Error", JOptionPane.ERROR_MESSAGE);
+        } catch (java.sql.SQLException ex) {
+            Logger.getLogger(ECS.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jtfEquipmentIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfEquipmentIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfEquipmentIdActionPerformed
+
+    private void combBoxBuildingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combBoxBuildingActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_combBoxBuildingActionPerformed
+
+    private void btnSubRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubRequestActionPerformed
+        // TODO add your handling code here:
+        Requests reqes = new Requests(0,intRequestToolName.getText(),combBoxBuilding.getSelectedIndex()+1, "pending");
+        //   reqes = Requests(0,intRequestToolName.getText(),combBoxBuilding.getSelectedIndex()+1, "pending");
+        ecsDB db = new ecsDB();
+        try {
+            db.addRequest(reqes);
+            JOptionPane.showMessageDialog(this, "Request Sent");
+
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error DB driver not found", "Driver Not Found", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            Logger.getLogger(Requests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_btnSubRequestActionPerformed
+
+    private void tblRequestsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblRequestsMouseClicked
+        // TODO add your handling code here:
+        int selectedRowIndex = tblRequests.getSelectedRow();
+        int selectedColumnIndex = 0;
+        Object selectedObject = (Object) tblRequests.getModel().getValueAt(selectedRowIndex, selectedColumnIndex);
+        // System.out.println(selectedObject);
+        selectRequest=(int) selectedObject;
+    }//GEN-LAST:event_tblRequestsMouseClicked
+
+    private void btnRequestApprovedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRequestApprovedActionPerformed
+        // TODO add your handling code here:
+        updateRequests("Approve");
+        getRequests();
+    }//GEN-LAST:event_btnRequestApprovedActionPerformed
+
+    private void btnRequestDenyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRequestDenyActionPerformed
+        // TODO add your handling code here:
+        updateRequests("Deny");
+        getRequests();
+    }//GEN-LAST:event_btnRequestDenyActionPerformed
+
+    private void btnRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRequestActionPerformed
+        // TODO add your handling code here:
+        switchPanels(paneRequest,1);
+        getRequests();
+
+    }//GEN-LAST:event_btnRequestActionPerformed
+
     private void btnBuildingInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuildingInventoryActionPerformed
         // TODO add your handling code here:
         switchPanels(paneBuildingInventory,2);
-
     }//GEN-LAST:event_btnBuildingInventoryActionPerformed
+
+    private void inptFilterReportKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inptFilterReportKeyReleased
+        // TODO add your handling code here:
+        getReports( true, inptFilterReport.getText());
+        System.out.print(inptFilterReport.getText());
+    }//GEN-LAST:event_inptFilterReportKeyReleased
 
     private void btnMainBuildingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainBuildingActionPerformed
         // TODO add your handling code here:
-       getBuildingReoprt("1");
+        getBuildingReoprt("1");
     }//GEN-LAST:event_btnMainBuildingActionPerformed
 
     private void btnPrintBuildingRepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintBuildingRepActionPerformed
@@ -842,7 +2809,7 @@ public class ECS extends javax.swing.JFrame {
         try {
             boolean print = tblBuildingInventory.print();
             if (!print) {
-               // JOptionPane.showMessageDialog(null, "Unable To Print !!..");
+                // JOptionPane.showMessageDialog(null, "Unable To Print !!..");
             }
         } catch (PrinterException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -851,15 +2818,37 @@ public class ECS extends javax.swing.JFrame {
 
     private void btnSubBuildingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubBuildingActionPerformed
         // TODO add your handling code here:
-               getBuildingReoprt("2");
-
+        getBuildingReoprt("2");
     }//GEN-LAST:event_btnSubBuildingActionPerformed
 
-    private void inptFilterReportKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inptFilterReportKeyReleased
+    private void inptFilterAllTransKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inptFilterAllTransKeyReleased
+        getAllTransactions( true, inptFilterAllTrans.getText());
         // TODO add your handling code here:
-                       getReports( true, inptFilterReport.getText());
-                       System.out.print(inptFilterReport.getText());
-    }//GEN-LAST:event_inptFilterReportKeyReleased
+    }//GEN-LAST:event_inptFilterAllTransKeyReleased
+
+    private void btnPrintAllTransactionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintAllTransactionsActionPerformed
+        // TODO add your handling code here:
+        try {
+            boolean print = tbleAllTransactions.print();
+            if (!print) {
+                // JOptionPane.showMessageDialog(null, "Unable To Print !!..");
+            }
+        } catch (PrinterException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    }//GEN-LAST:event_btnPrintAllTransactionsActionPerformed
+
+    private void btnContingencyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContingencyActionPerformed
+        // TODO add your handling code here:
+        switchPanels(paneContingency,2);
+        getReports(false,"");
+
+    }//GEN-LAST:event_btnContingencyActionPerformed
+
+    private void btnAllTransactionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAllTransactionsActionPerformed
+        // TODO add your handling code here:
+        switchPanels(paneAllTransactions,2);
+    }//GEN-LAST:event_btnAllTransactionsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -899,80 +2888,241 @@ public class ECS extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel SolGender2;
+    private javax.swing.JLabel SolGender3;
+    private javax.swing.JButton btnAllTransactions;
+    private javax.swing.JButton btnBrokenAction;
     private javax.swing.JButton btnBuildingInventory;
     private javax.swing.JButton btnCheckIn;
+    private javax.swing.JButton btnCheckInAction;
     private javax.swing.JButton btnCheckOut;
+    private javax.swing.JButton btnClear1;
     private javax.swing.JButton btnContingency;
+    private javax.swing.JButton btnEdit1;
     private javax.swing.JButton btnEditInventory;
     private javax.swing.JButton btnLogin;
+    private javax.swing.JButton btnLostAction;
     private java.awt.Button btnMainBuilding;
+    private java.awt.Button btnPrintAllTransactions;
     private java.awt.Button btnPrintBuildingRep;
+    private javax.swing.JButton btnRequest;
+    private javax.swing.JButton btnRequestApproved;
+    private javax.swing.JButton btnRequestDeny;
+    private javax.swing.JButton btnSave1;
+    private javax.swing.JButton btnStolenAction;
     private java.awt.Button btnSubBuilding;
+    private javax.swing.JButton btnSubRequest;
+    private javax.swing.JComboBox<String> combBoxBuilding;
+    private javax.swing.JTextField inptFilterAllTrans;
     private javax.swing.JTextField inptFilterReport;
     private javax.swing.JTextField inptFinancialLoss;
     private javax.swing.JTextField inptPassword;
     private javax.swing.JTextField inptTotalContingencies;
     private javax.swing.JTextField inptUsername;
+    private javax.swing.JTextField intRequestToolName;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jtfBuilding;
+    private javax.swing.JTextField jtfDate;
+    private javax.swing.JTextField jtfEquipmentId;
+    private javax.swing.JTextField jtfName;
+    private javax.swing.JTextField jtfPrice;
+    private javax.swing.JLabel lblAdderss1;
+    private javax.swing.JLabel lblAdderss2;
+    private javax.swing.JLabel lblAddress2;
+    private javax.swing.JLabel lblAddress3;
+    private javax.swing.JLabel lblBuildingId1;
+    private javax.swing.JLabel lblBuildingInventory;
+    private javax.swing.JLabel lblBuildingRequest;
+    private javax.swing.JLabel lblCity1;
+    private javax.swing.JLabel lblCity2;
+    private javax.swing.JLabel lblCity5;
+    private javax.swing.JLabel lblDLAdderss4;
+    private javax.swing.JLabel lblDLAddress5;
+    private javax.swing.JLabel lblDOB2;
+    private javax.swing.JLabel lblDash;
+    private javax.swing.JLabel lblDash1;
+    private javax.swing.JLabel lblDash5;
+    private javax.swing.JLabel lblDateEnventory;
+    private javax.swing.JLabel lblDateofBirth1;
+    private javax.swing.JLabel lblDriverLicense3;
+    private javax.swing.JLabel lblEMail1;
+    private javax.swing.JLabel lblEMail2;
+    private javax.swing.JLabel lblEMail3;
+    private javax.swing.JLabel lblEmployeeID1;
+    private javax.swing.JLabel lblEmployeeID2;
+    private javax.swing.JLabel lblEmployeeID3;
+    private javax.swing.JLabel lblEmployeeIDNum1;
+    private javax.swing.JLabel lblEmploymentStatus1;
+    private javax.swing.JLabel lblEmploymentStatus2;
+    private javax.swing.JLabel lblEmploymentStatus3;
+    private javax.swing.JLabel lblExpDate2;
+    private javax.swing.JLabel lblFEIN1;
+    private javax.swing.JLabel lblFEIN2;
+    private javax.swing.JLabel lblFEIN3;
+    private javax.swing.JLabel lblFilterAllTrans;
+    private javax.swing.JLabel lblFilterContingency;
+    private javax.swing.JLabel lblFinancialLoss;
+    private javax.swing.JLabel lblFirstName2;
+    private javax.swing.JLabel lblFirstName3;
+    private javax.swing.JLabel lblFirstName4;
+    private javax.swing.JLabel lblGender1;
+    private javax.swing.JLabel lblGender2;
+    private javax.swing.JLabel lblGender3;
+    private javax.swing.JLabel lblInventoryEquipmentID;
+    private javax.swing.JLabel lblIssueDate3;
+    private javax.swing.JLabel lblLastName2;
+    private javax.swing.JLabel lblLastName3;
+    private javax.swing.JLabel lblLastName4;
+    private javax.swing.JLabel lblMiddleName1;
+    private javax.swing.JLabel lblMiddleName2;
+    private javax.swing.JLabel lblMiddleName3;
+    private javax.swing.JLabel lblNameInventory;
+    private javax.swing.JLabel lblPassword4;
+    private javax.swing.JLabel lblPassword5;
+    private javax.swing.JLabel lblPassword6;
+    private javax.swing.JLabel lblPassword7;
+    private javax.swing.JLabel lblPhoneNo;
+    private javax.swing.JLabel lblPhoneNo2;
+    private javax.swing.JLabel lblPhoneNo3;
+    private javax.swing.JLabel lblPriceInventory;
+    private javax.swing.JLabel lblPw;
+    private javax.swing.JLabel lblSSN1;
+    private javax.swing.JLabel lblSSN2;
+    private javax.swing.JLabel lblSSN3;
+    private javax.swing.JLabel lblSearchEmplID1;
+    private javax.swing.JLabel lblSearchEquipID1;
+    private javax.swing.JLabel lblState1;
+    private javax.swing.JLabel lblState2;
+    private javax.swing.JLabel lblState5;
+    private javax.swing.JLabel lblToolName;
+    private javax.swing.JLabel lblTotalContingencies;
+    private javax.swing.JLabel lblUserProfileTitle1;
+    private javax.swing.JLabel lblUserProfileTitle2;
+    private javax.swing.JLabel lblUsername;
+    private javax.swing.JLabel lblUsername3;
+    private javax.swing.JLabel lblUsername4;
+    private javax.swing.JLabel lblUsername5;
+    private javax.swing.JLabel lblZipCode1;
+    private javax.swing.JLabel lblZipCode5;
+    private javax.swing.JLabel lblZipcode3;
+    private javax.swing.JPanel loginInternalPannel;
     private javax.swing.JLayeredPane lpaneEquipment;
     private javax.swing.JLayeredPane lpaneReports;
     private javax.swing.JPanel panEquipment;
     private javax.swing.JPanel panProfile;
+    private javax.swing.JPanel panProfile1;
     private javax.swing.JPanel panReports;
+    private javax.swing.JPanel panUserInput;
+    private javax.swing.JPanel panUserResult;
     private javax.swing.JPanel panUsers;
+    private javax.swing.JPanel paneAllTransactions;
     private javax.swing.JPanel paneBuildingInventory;
     private javax.swing.JPanel paneCheckIn;
     private javax.swing.JPanel paneCheckOut;
     private javax.swing.JPanel paneContingency;
     private javax.swing.JPanel paneEditInventory;
     private javax.swing.JPanel paneLogin;
+    private javax.swing.JPanel paneRequest;
+    private javax.swing.JRadioButton radActive1;
+    private javax.swing.JRadioButton radFemale1;
+    private javax.swing.JRadioButton radInactive1;
+    private javax.swing.JRadioButton radMale1;
+    private javax.swing.JRadioButton radTerminated1;
+    private java.awt.ScrollPane scrlContingency;
+    private javax.swing.JScrollPane scrlPaneContingency;
+    private java.awt.ScrollPane scrolRequest;
+    private javax.swing.JScrollPane scrollInnerRequest;
     private java.awt.ScrollPane scrollPane1;
     private java.awt.ScrollPane scrollPane2;
     private java.awt.ScrollPane scrollPane3;
     private java.awt.ScrollPane scrollPane5;
-    private java.awt.ScrollPane scrollPane6;
+    private javax.swing.JComboBox<String> selState1;
+    private javax.swing.JLabel solAddress2;
+    private javax.swing.JLabel solAddress3;
+    private javax.swing.JLabel solCity2;
+    private javax.swing.JLabel solCity5;
+    private javax.swing.JLabel solDLAddress5;
+    private javax.swing.JLabel solDLAddress6;
+    private javax.swing.JLabel solDOB2;
+    private javax.swing.JLabel solDriverLicense3;
+    private javax.swing.JLabel solEMail1;
+    private javax.swing.JLabel solEMail2;
+    private javax.swing.JLabel solEmployeeIDNo1;
+    private javax.swing.JLabel solEmployeeIDNo3;
+    private javax.swing.JLabel solEmploymentStatus2;
+    private javax.swing.JLabel solEmploymentStatus3;
+    private javax.swing.JLabel solExpDate2;
+    private javax.swing.JLabel solFEIN2;
+    private javax.swing.JLabel solFEIN3;
+    private javax.swing.JLabel solFirstName3;
+    private javax.swing.JLabel solFirstName4;
+    private javax.swing.JLabel solIssueDate3;
+    private javax.swing.JLabel solLastName3;
+    private javax.swing.JLabel solLastName4;
+    private javax.swing.JLabel solMiddleName1;
+    private javax.swing.JLabel solMiddleName2;
+    private javax.swing.JLabel solPassword6;
+    private javax.swing.JLabel solPassword7;
+    private javax.swing.JLabel solPhoneNo2;
+    private javax.swing.JLabel solPhoneNo3;
+    private javax.swing.JLabel solPlus42;
+    private javax.swing.JLabel solPlus44;
+    private javax.swing.JLabel solSSN2;
+    private javax.swing.JLabel solSSN3;
+    private javax.swing.JLabel solState2;
+    private javax.swing.JLabel solState5;
+    private javax.swing.JLabel solUsername4;
+    private javax.swing.JLabel solUsername5;
+    private javax.swing.JLabel solZipCode3;
+    private javax.swing.JLabel solZipCode5;
     private javax.swing.JTabbedPane tabDashboard;
     private javax.swing.JTable tblBuildingInventory;
+    private javax.swing.JTable tblCheckIn;
     private javax.swing.JTable tblContingency;
+    private javax.swing.JTable tblRequests;
+    private javax.swing.JTable tbleAllTransactions;
+    private javax.swing.JTextField txtAddress1;
+    private javax.swing.JTextField txtAddress2;
+    private javax.swing.JTextField txtBuildingId1;
+    private javax.swing.JTextField txtCity1;
+    private javax.swing.JFormattedTextField txtDOB1;
+    private javax.swing.JFormattedTextField txtEmail1;
+    private javax.swing.JFormattedTextField txtFEIN1;
+    private javax.swing.JTextField txtFirstName2;
+    private javax.swing.JFormattedTextField txtFormPhoneNo1;
+    private javax.swing.JTextField txtLastName2;
+    private javax.swing.JTextField txtMiddleName1;
+    private javax.swing.JPasswordField txtPassword4;
+    private javax.swing.JPasswordField txtPassword5;
+    private javax.swing.JTextField txtPlus41;
+    private javax.swing.JFormattedTextField txtSSN1;
+    private javax.swing.JTextField txtSearchEmplID1;
+    private javax.swing.JTextField txtSearchEquipID1;
+    private javax.swing.JTextField txtUsername3;
+    private javax.swing.JTextField txtZipCode1;
     // End of variables declaration//GEN-END:variables
     public void switchPanels(JPanel panel, int x){
         if(x==1){
@@ -1032,30 +3182,47 @@ DefaultTableModel reportTableModel = new DefaultTableModel();
                          inptFinancialLoss.setText(String.valueOf(totalContingency));
 
 }
-//user contengency report
-//  public void getUserContingency(){
-//  DefaultTableModel userContingencyModel = new DefaultTableModel();
-//        tblUserContingency.setModel(userContingencyModel);
-//
-//        String[] colTitles = {"Employee", "Employee ID", "Equipment incidents",};
-//        userContingencyModel.setColumnIdentifiers(colTitles);
-//        
-//        ecsDB db2 = new ecsDB();
-//        try {
-//            ArrayList<Reports> records = db2.getUserContingencyRec();
-//            for (int i = 0; i < records.size(); i++) {
-//                Reports odr = records.get(i);    
-//                Object[] row = {odr.getName().toUpperCase(), odr.getUserID(), odr.getCntingency()};
-//                //reportTableModel.addRow(row);
-//                 userContingencyModel.addRow(row);
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            JOptionPane.showMessageDialog(this, "Error DB driver not found", "Driver Not Found", JOptionPane.ERROR_MESSAGE);
-//        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(this, "DB ERROR: " + ex.getMessage(), "DB ERROR", JOptionPane.ERROR_MESSAGE);
-//        }
-//        
-//}
+   public void getAllTransactions(boolean filter, String filterString ){
+//contengency report
+DefaultTableModel reportTableModel = new DefaultTableModel();
+        tbleAllTransactions.setModel(reportTableModel);
+
+        String[] colTitles = {"Transaction ID", "Transaction Type", "Equipment","Building", "Price", "Employee",  "Employee ID"};
+        reportTableModel.setColumnIdentifiers(colTitles);
+        
+        ecsDB db2 = new ecsDB();
+        try {
+
+             ArrayList<Reports> records =null;
+            if(filter==true )
+            {
+                records = db2.getAllTransactions(true,filterString);
+
+            }
+            else{                      
+                records = db2.getAllTransactions(false,filterString);
+            }
+
+            for (int i = 0; i < records.size(); i++) {
+                Reports odr = records.get(i);  
+                
+                Object[] row = {odr.getTransactionID(), odr.getTransactionType(), odr.getEquipmentName(),odr.getBuildingName(), odr.getPrice(), odr.getName().toUpperCase(), odr.getUserID()};
+                reportTableModel.addRow(row);
+//                totalContingency+=odr.getPrice();
+//                                         inptTotalContingencies.setText(String.valueOf(i+1));
+
+                 
+                 
+            }
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error DB driver not found", "Driver Not Found", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "DB ERROR: " + ex.getMessage(), "DB ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+   
+
+}
+
   
 //user contengency report
   public void getBuildingReoprt(String x){
@@ -1113,10 +3280,88 @@ int validUser=0;
         }
         return validUser;
 }
+
+ public void getRequests(){
+        DefaultTableModel userContingencyModel = new DefaultTableModel();
+        tblRequests.setModel(userContingencyModel);
+
+        String[] colTitles = {"Request Id", "User id", "tool", "building", "status"};
+        userContingencyModel.setColumnIdentifiers(colTitles);
+        
+        ecsDB db2 = new ecsDB();
+        try {
+            ArrayList<Requests> records = db2.getRequests();
+            for (int i = 0; i < records.size(); i++) {
+                Requests odr = records.get(i);     
+                String buildingName="";
+                if( odr.getBuildingId()==1){buildingName="Main";}
+                if( odr.getBuildingId()==2){buildingName="Sub Building";}
+
+
+                Object[] row = {odr.getRequestId(), odr.getUserId(), odr.getToolName(), buildingName, odr.getStatus()};
+                //reportTableModel.addRow(row);
+                //System.out.println(Arrays.toString(row));
+
+                 userContingencyModel.addRow(row);
+            }
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error DB driver not found", "Driver Not Found", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "DB ERROR: " + ex.getMessage(), "DB ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+ 
+
+}  
+ public void updateRequests(String requestType){
+          Requests reqes = new Requests(selectRequest, requestType);
+        
+          
+    //   reqes = Requests(0,intRequestToolName.getText(),combBoxBuilding.getSelectedIndex()+1, "pending");
+         ecsDB db = new ecsDB();
+            try {
+                db.updateRequest(reqes);
+                JOptionPane.showMessageDialog(this, "Request update");
+
+            } catch (ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(this, "Error DB driver not found", "Driver Not Found", JOptionPane.ERROR_MESSAGE);
+            } catch (SQLException ex) {
+                Logger.getLogger(Requests.class.getName()).log(Level.SEVERE, null, ex);
+            }
+ 
+
+}
+  
+  
+  
 private void hideNonAdmin(){
 paneEditInventory.hide();
 btnEditInventory.hide();
 jMenuBar1.show();
+btnRequestApproved.disable();
+btnRequestDeny.disable();
+tblRequests.disable();
 }
+
+    private void clearForm() {
+    /*    setBuildingId1(0);
+        setEmployeeIDNum1(0);
+        setUsername1("");
+        setFirstName1("");
+        setMiddleName1("");
+        setLastName1("");
+        setDriverLicense1("");
+        setIssueDate1(0);
+        setExperationDate1(0);
+        setDlAddress1("");
+        setDlAddress2("");
+        setDlCity1("");
+        setDlState1("");
+        setDlZipCode1(0);
+        setDlPlus41(0);
+        setSsn1(0);
+        setFein1(0);
+        setCheckIn(0);
+    */
+    }
 
 }
