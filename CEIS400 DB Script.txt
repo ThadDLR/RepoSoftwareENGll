@@ -1,7 +1,6 @@
 DROP DATABASE IF EXISTS ecs;
 CREATE DATABASE ecs;
 use ecs;
-
 CREATE TABLE `building` (
   `buildingId` int NOT NULL AUTO_INCREMENT,
   `buildingName` varchar(45) DEFAULT NULL,
@@ -14,8 +13,6 @@ VALUES
 (1,'main'),
 (2,'subBuilding')
 ;
-
-
 CREATE TABLE `equipment` (
   `equipmentId` int NOT NULL AUTO_INCREMENT,
   `equipmentName` varchar(45) DEFAULT NULL,
@@ -23,8 +20,8 @@ CREATE TABLE `equipment` (
   `status` varchar(45) DEFAULT NULL,
   `buildingId` int DEFAULT NULL,
   `dateAdded` varchar(45) DEFAULT NULL,
+  `for_position` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`equipmentId`)
-
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 INSERT INTO `ecs`.`equipment`
 (`equipmentId`,
@@ -32,37 +29,34 @@ INSERT INTO `ecs`.`equipment`
 `price`,
 `status`,
 `buildingId`,
-`dateAdded`)
+`dateAdded`,`for_position`)
 VALUES
-(1,'saw',1.39,'Out',2,'9/30/2021'),
-(2,'hammer',3.98,'Out',1,'10/01/2021'),
-(3,'cultivator',6,'Lost',2,'10/02/2021'),
-(4,'ladder',10,'Out',1,'9/30/2021'),
-(5,'mallet',2,'Lost',1,'10/01/2021'),
-(6,'measuring tape',3.9,'Avilable',2,'10/02/2021'),
-(7,'flashlight',9.3,'Out',1,'9/30/2021'),
-(8,'wrench',8,'Avilable',1,'10/01/2021'),
-(9,'allan keys',5,'Avilable',1,'10/02/2021'),
-(10,'stud finder',4.3,'Avilable',2,'9/30/2021'),
-(11,'leveler',5,'Out',2,'10/01/2021'),
-(12,'extension cord',9,'Out',1,'10/02/2021'),
-(13,'pocket knife',3,'Lost',2,'9/30/2021'),
-(14,'allan keys',1.39,'Out',2,'10/01/2021'),
-(15,'cultivator',3.98,'Out',2,'10/02/2021'),
-(16,'extension cord',6,'Avilable',1,'9/30/2021'),
-(17,'flashlight',10,'Avilable',2,'10/01/2021'),
-(18,'hammer',2,'Avilable',1,'10/02/2021'),
-(19,'ladder',3.9,'Out',1,'9/30/2021'),
-(20,'leveler',9.3,'Out',1,'10/01/2021'),
-(21,'mallet',8,'Lost',1,'10/02/2021'),
-(22,'measuring tape',5,'Out',1,'9/30/2021'),
-(23,'pocket knife',4.3,'Broken',1,'10/01/2021'),
-(24,'saw',5,'Out',1,'10/02/2021'),
-(25,'stud finder',9,'Stolen',2,'9/30/2021'),
-(26,'wrench',3,'Lost',1,'10/01/2021');
-
-
-
+(1,'saw',1.39,'Out',2,'9/30/2021','1, 2, 3'),
+(2,'hammer',3.98,'Out',1,'10/01/2021','1, 3, 4'),
+(3,'cultivator',6,'Lost',2,'10/02/2021','1, 4, 5'),
+(4,'ladder',10,'Out',1,'9/30/2021','1, 2, 5'),
+(5,'mallet',2,'Lost',1,'10/01/2021','1, 4'),
+(6,'measuring tape',3.9,'Available',2,'10/02/2021','1,3, 4'),
+(7,'flashlight',9.3,'Out',1,'9/30/2021','1, 4'),
+(8,'wrench',8,'Available',1,'10/01/2021','1, 3'),
+(9,'allan keys',5,'Available',1,'10/02/2021','1, 3'),
+(10,'stud finder',4.3,'Available',2,'9/30/2021','1, 5'),
+(11,'leveler',5,'Out',2,'10/01/2021','1, 2'),
+(12,'extension cord',9,'Out',1,'10/02/2021','1,3, 4'),
+(13,'pocket knife',3,'Lost',2,'9/30/2021','1, 2'),
+(14,'allan keys',1.39,'Out',2,'10/01/2021','1, 3, 5, 6'),
+(15,'cultivator',3.98,'Out',2,'10/02/2021','1, 4'),
+(16,'extension cord',6,'Available',1,'9/30/2021','1,3, 4'),
+(17,'flashlight',10,'Available',2,'10/01/2021','1, 3, 5, 4'),
+(18,'hammer',2,'Available',1,'10/02/2021','1, 3, 5, 6'),
+(19,'ladder',3.9,'Out',1,'9/30/2021','1, 2, 3, 6'),
+(20,'leveler',9.3,'Out',1,'10/01/2021','1,3, 4'),
+(21,'mallet',8,'Lost',1,'10/02/2021','1, 2, 6'),
+(22,'measuring tape',5,'Out',1,'9/30/2021','1, 2'),
+(23,'pocket knife',4.3,'Broken',1,'10/01/2021','1, 3, 6'),
+(24,'saw',5,'Out',1,'10/02/2021','1, 4, 6'),
+(25,'stud finder',9,'Stolen',2,'9/30/2021','1, 2, 5'),
+(26,'wrench',3,'Lost',1,'10/01/2021','1, 4, 5');
 CREATE TABLE `equipment_transactions` (
   `transactionId` int NOT NULL AUTO_INCREMENT,
   `transactionType` varchar(10) DEFAULT NULL,
@@ -98,7 +92,6 @@ VALUES
 (26,'Lost',26,19),
 (27,'Lost',5,25)
 ;
-
 CREATE TABLE `position` (
   `positionId` int NOT NULL AUTO_INCREMENT,
   `positionTitle` varchar(45) DEFAULT NULL,
@@ -109,52 +102,54 @@ INSERT INTO `ecs`.`position`
 `positionTitle`)
 VALUES
 (1,'admin'),
-(2,'position 1'),
-(3,'position 2'),
-(4,'position 3')
+(2,'Carpenter'),
+(3,'Electrician'),
+(4,'Pluber'),
+(5,'Mason'),
+(6,'Painter')
 ;
-
 CREATE TABLE `users` (
   `userId` int NOT NULL,
-  `userName` varchar(45) DEFAULT NULL,
+  `Name` varchar(45) DEFAULT NULL,
   `userPosition` varchar(45) DEFAULT NULL,
   `hireStatus` varchar(45) DEFAULT NULL,
+  `userName` varchar(45) DEFAULT NULL,
+  `password` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`userId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 INSERT INTO `ecs`.`users`
 (`userId`,
-`userName`,
+`Name`,
 `userPosition`,
-`hireStatus`)
+`hireStatus`,
+`userName`,
+`password`)
 VALUES
-(1,'Adina',2,0),
-(2,'Imelda',1,1),
-(3,'Toni',2,1),
-(4,'Anastasia',3,1),
-(5,'Rufina',4,1),
-(6,'Jesse',2,1),
-(7,'Jannette',3,1),
-(8,'Edwin',4,1),
-(9,'Krysta',2,1),
-(10,'Jaclyn',3,1),
-(11,'Jen',4,0),
-(12,'Been',2,0),
-(13,'Kelly',3,0),
-(14,'Suzy',4,1),
-(15,'Josh ',2,1),
-(16,'Alex',3,1),
-(17,'Miguel',4,1),
-(18,'Emilia',2,1),
-(19,'Pok',3,1),
-(20,'Latrisha',4,1),
-(21,'Linda',2,1),
-(22,'Wanda',3,1),
-(23,'Daphnie',4,1),
-(24,'Oscar',2,1),
-(25,'Stephan',3,1),
-(26,'Daisy',4,1)
-;
-
+(2,'Imelda',1,1,'user2','user2'),
+(3,'Toni',2,1,'user3','user3'),
+(4,'Anastasia',3,1,'user4','user4'),
+(5,'Rufina',4,1,'user5','user5'),
+(6,'Jesse',2,1,'user6','user6'),
+(7,'Jannette',3,1,'user7','user7'),
+(8,'Edwin',4,1,'user8','user8'),
+(9,'Krysta',2,1,'user9','user9'),
+(10,'Jaclyn',3,1,'user10','user10'),
+(11,'Jen',4,0,'user11','user11'),
+(12,'Been',2,0,'user12','user12'),
+(13,'Kelly',3,0,'user13','user13'),
+(14,'Suzy',4,1,'user14','user14'),
+(15,'Josh ',2,1,'user15','user15'),
+(16,'Alex',3,1,'user16','user16'),
+(17,'Miguel',4,1,'user17','user17'),
+(18,'Emilia',2,1,'user18','user18'),
+(19,'Pok',3,1,'user19','user19'),
+(20,'Latrisha',4,1,'user20','user20'),
+(21,'Linda',2,1,'user21','user21'),
+(22,'Wanda',3,1,'user22','user22'),
+(23,'Daphnie',4,1,'user23','user23'),
+(24,'Oscar',2,1,'user24','user24'),
+(25,'Stephan',3,1,'user25','user25'),
+(26,'Daisy',4,1,'user26','user26');
 CREATE TABLE `requests` (
   `requestId` int NOT NULL AUTO_INCREMENT,
   `userId` varchar(45) DEFAULT NULL,
@@ -179,9 +174,6 @@ VALUES
 (5,21,'Tool belt',2,1,'pending'),
 (6,22,'wrench',3,1,'pending'),
 (7,23,'stud finder',1,2,'pending');
-
-
-
 CREATE 
     ALGORITHM = UNDEFINED 
     DEFINER = `root`@`localhost` 
@@ -192,7 +184,7 @@ VIEW `ecs`.`contengencies` AS
         `et`.`transactionType` AS `transactionType`,
         `e`.`equipmentName` AS `equipmentName`,
         `e`.`price` AS `price`,
-        `user`.`userName` AS `userName`,
+        `user`.`name` AS `name`,
         `user`.`userId` AS `userId`
     FROM
         ((`ecs`.`equipment_transactions` `et`
@@ -217,14 +209,13 @@ CREATE
     SQL SECURITY DEFINER
 VIEW `ecs`.`user_contengencies_count` AS
     SELECT 
-        `ecs`.`contengencies`.`userName` AS `username`,
+        `ecs`.`contengencies`.`name` AS `name`,
         `ecs`.`contengencies`.`userId` AS `userId`,
         COUNT(0) AS `incidences`
     FROM
         `ecs`.`contengencies`
     GROUP BY `ecs`.`contengencies`.`userId`
     ORDER BY `incidences`;
-    
 CREATE 
 VIEW `ecs`.`main_building_equipment` AS
  SELECT 
@@ -233,7 +224,6 @@ VIEW `ecs`.`main_building_equipment` AS
         `ecs`.`equipment` `e`
         JOIN ecs.building as build on e.buildingId=build.buildingId
         where build.buildingId=1;
-
 CREATE 
 VIEW `ecs`.`sub_Building_equipment` AS
  SELECT 
@@ -242,6 +232,6 @@ VIEW `ecs`.`sub_Building_equipment` AS
         `ecs`.`equipment` `e`
         JOIN ecs.building as build on e.buildingId=build.buildingId
         where build.buildingId=2;
-
     
-   
+    
+  
